@@ -8,49 +8,47 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.haiph.oysi.R;
-import com.haiph.oysi.model.country.Country;
+import com.haiph.oysi.model.state.State;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class AdapterListCountry extends RecyclerView.Adapter<AdapterListCountry.ViewHolder> {
-    List<Country> list;
+public class AdapterListState extends RecyclerView.Adapter<AdapterListState.ViewHolder> {
+    List<State> list;
     Context context;
     ItemListener listener;
 
-    public AdapterListCountry(List<Country> list, Context context, ItemListener listener) {
+    public  interface ItemListener{
+        public void ItemOnclickListener(int position);
+    }
+
+    public AdapterListState(List<State> list, Context context, ItemListener listener) {
         this.list = list;
         this.context = context;
         this.listener = listener;
-    }
-
-    public  interface ItemListener{
-        public void ItemOnclickListener(int position);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.item_list_country, parent, false);
+        View view = layoutInflater.inflate(R.layout.item_list_state, parent, false);
         return new ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        Country country=list.get(position);
-        holder.tvCountry.setText(country.country);
-
-        holder.cardViewCountry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.ItemOnclickListener(position);
-            }
-        });
+        State state=list.get(position);
+        holder.tvState.setText(state.state);
+        holder.itemState.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            listener.ItemOnclickListener(position);
+        }
+    });
     }
 
     @Override
@@ -59,12 +57,12 @@ public class AdapterListCountry extends RecyclerView.Adapter<AdapterListCountry.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvCountry;
-        LinearLayout cardViewCountry;
+        LinearLayout itemState;
+        TextView tvState;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvCountry=itemView.findViewById(R.id.tvCountry);
-            cardViewCountry=itemView.findViewById(R.id.cardViewCountry);
+            itemState=itemView.findViewById(R.id.itemState);
+            tvState=itemView.findViewById(R.id.tvState);
         }
     }
 }

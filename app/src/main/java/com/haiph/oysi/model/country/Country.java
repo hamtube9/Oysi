@@ -7,27 +7,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class Country {
 
-    @SerializedName("status")
+    @SerializedName("country")
     @Expose
-    private String status;
-    @SerializedName("data")
-    @Expose
-    private List<Datum> data = null;
+    public String country;
 
-    public String getStatus() {
-        return status;
+    @Override
+    public String toString() {
+        return country;
     }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public List<Datum> getData() {
-        return data;
-    }
-
-    public void setData(List<Datum> data) {
-        this.data = data;
-    }
-
 }

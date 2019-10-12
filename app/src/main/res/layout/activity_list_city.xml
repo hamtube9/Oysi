@@ -3,19 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".activity.ListCountry">
+    android:orientation="vertical"
+    tools:context=".activity.ListCity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/end"
-        app:title="List Country of the World"
-        android:id="@+id/toolbarListCountry"></androidx.appcompat.widget.Toolbar>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:id="@+id/rcListCountry"
+        android:id="@+id/rcListCity"
         android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
-
 </LinearLayout>
