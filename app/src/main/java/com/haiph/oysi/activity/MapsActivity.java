@@ -10,12 +10,16 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -44,6 +48,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener {
 
+    ImageView air;
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
     Location mLocation;
@@ -55,13 +60,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationManager locationManager;
     LatLng latLng;
     boolean isPermission;
-
     public static final int MY_REQUEST_LOCATION = 1;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        air=findViewById(R.id.air);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         if (requestSinglePermission()) {
@@ -79,6 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             checkLocation();
         }
+
 
 
     }
@@ -107,6 +116,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         dialog.show();
+
+
 
     }
 
@@ -160,6 +171,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.addMarker(new MarkerOptions().position(latLng).title("Marker in Current Location"));
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 19F));
 
+            air.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i =new Intent(MapsActivity.this,SweepAirQuality.class);
+                    startActivity(i);
+                }
+            });
         }
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -216,14 +234,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(final Location location) {
 
         String mess = "Cập nhật Vị trí" + Double.toString(location.getLatitude())+" "+Double.toString(location.getLongitude());
+        sharedPreferences = getSharedPreferences("Location",Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        editor.putString("Longitude", String.valueOf(location.getLongitude()));
+        editor.putString("Latitude", String.valueOf(location.getLatitude()));
+        editor.commit();
+
+
+
         Toast.makeText(this, mess, Toast.LENGTH_SHORT).show();
+
 
         latLng = new LatLng(location.getLatitude(),location.getLongitude());
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
     }
 
     @Override

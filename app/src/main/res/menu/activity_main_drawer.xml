@@ -13,9 +13,9 @@
             android:icon="@drawable/list"
             android:title="List Country" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_sweep"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:title="Sweep" />
         <item
             android:id="@+id/nav_tools"
             android:icon="@drawable/ic_menu_manage"

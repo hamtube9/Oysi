@@ -1,6 +1,7 @@
 package com.haiph.oysi.service;
 
 import com.haiph.oysi.response.CityResponse;
+import com.haiph.oysi.response.CurrentLocationRespone;
 import com.haiph.oysi.response.StateResponse;
 import com.haiph.oysi.response.CountryResponse;
 
@@ -26,5 +27,12 @@ public interface Service {
     Call<CityResponse> getAllCity(@Query("state") String state,
                                   @Query("country") String country,
                                   @Query("key") String key);
+
+    //api.airvisual.com/v2/nearest_city?lat=21.031263&lon=105.8509413&key=643d17a2-2def-469d-8c9b-bd90c5a7a550
+
+    @GET("/v2/nearest_city")
+    Call<CurrentLocationRespone> getCurrentLocation(@Query("lat") String lat,
+                                                    @Query("lon") String lon,
+                                                    @Query("key") String key);
 
 }

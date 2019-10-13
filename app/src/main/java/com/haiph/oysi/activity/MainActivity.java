@@ -103,7 +103,9 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(MainActivity.this, ListCountry.class);
             startActivity(i);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_sweep) {
+            Intent i = new Intent(MainActivity.this, SweepAirQuality.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_tools) {
 
