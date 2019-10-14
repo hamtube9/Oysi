@@ -1,15 +1,27 @@
+
 package com.haiph.oysi.model.location;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class CurrentLocation {
-    @SerializedName("nearest_city")
+
+    @SerializedName("data")
     @Expose
-    String nearest_city;
+    public Data data;
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
 
     @Override
     public String toString() {
-        return nearest_city;
+        return "CurrentLocation{" +
+                "data=" + data +
+                '}';
     }
 }

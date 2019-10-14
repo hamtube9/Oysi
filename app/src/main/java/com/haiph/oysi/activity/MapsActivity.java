@@ -48,15 +48,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener {
 
-    ImageView air;
+    ImageView sweep;
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
     Location mLocation;
     LocationManager mLocationManager;
     LocationRequest mLocationRequest;
     com.google.android.gms.location.LocationListener listener;
-    long UPDATE_INTERVAL = 2000;
-    long FASTED_INTERVAL = 5000;
+    long UPDATE_INTERVAL = 3000;
+    long FASTED_INTERVAL = 30000;
     LocationManager locationManager;
     LatLng latLng;
     boolean isPermission;
@@ -69,7 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        air=findViewById(R.id.air);
+        sweep=findViewById(R.id.sweep);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         if (requestSinglePermission()) {
@@ -171,7 +171,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.addMarker(new MarkerOptions().position(latLng).title("Marker in Current Location"));
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 19F));
 
-            air.setOnClickListener(new View.OnClickListener() {
+            sweep.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent i =new Intent(MapsActivity.this,SweepAirQuality.class);
@@ -209,7 +209,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             startLocationUpdate();
 
         }else {
-            Toast.makeText(this, "Không phát hiện vị trí", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Đang lấy vị trí hiện tại", Toast.LENGTH_SHORT).show();
         }
     }
 

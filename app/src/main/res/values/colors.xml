@@ -6,5 +6,15 @@
     <color name="start">#2980B9</color>
     <color name="mid">#6DD5FA</color>
     <color name="end">#eaecc6</color>
+    <color name="good">#a8e05f</color>
+    <color name="normal">#fdd74b</color>
+    <color name="notgood">#fe9b57</color>
+    <color name="polluted">#fe6a69</color>
+    <color name="ocean">#0032c8</color>
+    <color name="soimportant">#84002c</color>
+    <color name="important">#940045</color>
+    <color name="alert">#f3a183</color>
+
+
 
 </resources>

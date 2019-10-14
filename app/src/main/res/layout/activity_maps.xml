@@ -13,8 +13,8 @@
         android:layout_height="match_parent"/>
 
     <ImageView
-        android:src="@drawable/air"
-        android:id="@+id/air"
+        android:src="@drawable/day"
+        android:id="@+id/sweep"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignEnd="@+id/map"
