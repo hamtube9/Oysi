@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_gallery) {
-            Intent i = new Intent(MainActivity.this, ListCountry.class);
+            Intent i = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(i);
 
         } else if (id == R.id.nav_sweep) {

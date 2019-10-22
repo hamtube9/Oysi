@@ -4,6 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +18,7 @@ import com.haiph.oysi.model.city.City;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterListCity extends RecyclerView.Adapter<AdapterListCity.ViewHolder> {
@@ -22,11 +26,14 @@ public class AdapterListCity extends RecyclerView.Adapter<AdapterListCity.ViewHo
     Context context;
     ItemListener listener;
 
-    public AdapterListCity(List<City> list, Context context, ItemListener listener) {
+    public AdapterListCity(List<City> list,  Context context, ItemListener listener) {
         this.list = list;
         this.context = context;
         this.listener = listener;
     }
+
+
+
 
     public interface ItemListener {
         public void ItemOnclickListener();
@@ -50,6 +57,7 @@ public class AdapterListCity extends RecyclerView.Adapter<AdapterListCity.ViewHo
                 listener.ItemOnclickListener();
             }
         });
+
 
     }
 

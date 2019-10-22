@@ -35,4 +35,6 @@ public interface Service {
                                                     @Query("lon") String lon,
                                                     @Query("key") String key);
 
+    //api.airvisual.com/v2/city_ranking?key={{YOUR_API_KEY}}
+
 }

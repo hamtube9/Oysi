@@ -39,16 +39,16 @@ public class ListCountry extends AppCompatActivity {
         rcViewCountry = findViewById(R.id.rcListCountry);
         list = new ArrayList<>();
         rcViewCountry.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapterListCountry = new AdapterListCountry(list, getApplicationContext(), new AdapterListCountry.ItemListener() {
-            @Override
-            public void ItemOnclickListener(int position) {
-                Intent i=new Intent(ListCountry.this, ListState.class);
-                Country country=list.get(position);
-                i.putExtra("country",country.country);
-                i.putExtra("key",key);
-                startActivity(i);
-            }
-        });
+//        adapterListCountry = new AdapterListCountry(list, getApplicationContext(), new AdapterListCountry.ItemListener() {
+//            @Override
+//            public void ItemOnclickListener(int position) {
+//                Intent i=new Intent(ListCountry.this, ListState.class);
+//                Country country=list.get(position);
+//                i.putExtra("country",country.country);
+//                i.putExtra("key",key);
+//                startActivity(i);
+//            }
+//        });
         rcViewCountry.setAdapter(adapterListCountry);
         getAllCountry();
 

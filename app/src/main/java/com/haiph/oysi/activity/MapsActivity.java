@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -32,6 +33,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
@@ -168,8 +172,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         if (latLng != null) {
-            mMap.addMarker(new MarkerOptions().position(latLng).title("Marker in Current Location"));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 19F));
+            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            mMap.addMarker(new MarkerOptions().position(latLng).title("Marker in Current Location"))
+                    .setIcon(BitmapDescriptorFactory.fromResource(R.drawable.human));
+            CameraPosition cameraPosition = CameraPosition.builder()
+                    .target(latLng).zoom(14)
+                    .bearing(98).build();
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),2000,null);
+            mMap.addCircle(new CircleOptions().center(latLng).radius(1200).strokeColor(Color.RED));
 
             sweep.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -178,7 +188,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     startActivity(i);
                 }
             });
+
         }
+
+
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
