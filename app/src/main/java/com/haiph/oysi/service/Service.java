@@ -2,6 +2,7 @@ package com.haiph.oysi.service;
 
 import com.haiph.oysi.response.CityResponse;
 import com.haiph.oysi.response.CurrentLocationRespone;
+import com.haiph.oysi.response.LittleCityResponse;
 import com.haiph.oysi.response.StateResponse;
 import com.haiph.oysi.response.CountryResponse;
 
@@ -36,5 +37,13 @@ public interface Service {
                                                     @Query("key") String key);
 
     //api.airvisual.com/v2/city_ranking?key={{YOUR_API_KEY}}
+
+    //api.airvisual.com/v2/city?city={{CITY_NAME}}&state={{STATE_NAME}}&country={{COUNTRY_NAME}}&key={{YOUR_API_KEY}}
+
+    @GET("/v2/city")
+    Call<LittleCityResponse> getLittleCity(@Query("city") String city,
+                                           @Query("state") String state,
+                                           @Query("country") String country,
+                                           @Query("key") String key);
 
 }

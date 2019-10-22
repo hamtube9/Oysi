@@ -61,7 +61,7 @@ public class AdapterListState extends RecyclerView.Adapter<AdapterListState.View
         TextView tvState;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemState=itemView.findViewById(R.id.itemState);
+            itemState=itemView.findViewById(R.id.tvState);
             tvState=itemView.findViewById(R.id.tvState);
         }
     }
