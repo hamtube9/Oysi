@@ -83,7 +83,7 @@ public class AdapterMainFragment extends RecyclerView.Adapter<AdapterMainFragmen
         }else  if (holder.tvMain.getText().equals("Chile")){
             holder.iconCountry.setImageResource(R.drawable.chile);
         }else  if (holder.tvMain.getText().equals("China")){
-            holder.iconCountry.setImageResource(R.drawable.chile);
+            holder.iconCountry.setImageResource(R.drawable.china);
         }else  if (holder.tvMain.getText().equals("Colombia")){
             holder.iconCountry.setImageResource(R.drawable.colombia);
         }else  if (holder.tvMain.getText().equals("Croatia")){
