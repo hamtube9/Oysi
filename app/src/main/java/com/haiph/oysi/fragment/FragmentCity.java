@@ -10,6 +10,7 @@ import android.widget.SearchView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import com.haiph.oysi.service.RetrofitService;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,6 +34,7 @@ public class FragmentCity extends Fragment {
     SearchView searchView;
     ArrayList<City> list = new ArrayList<>();
     AdapterFragmentCity adapter;
+    CircleImageView back;
     List<City> cityList;
     @Nullable
     @Override
@@ -39,6 +42,16 @@ public class FragmentCity extends Fragment {
         View view = inflater.inflate(R.layout.fragment_city, container, false);
         recyclerView=view.findViewById(R.id.rcViewCity);
         searchView=view.findViewById(R.id.svCity);
+        back=view.findViewById(R.id.backCity);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction=getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = new FragmentStateofCountry();
+                fragmentTransaction.replace(R.id.framelayout,fragment);
+                fragmentTransaction.commit();
+            }
+        });
         list=getCityCraft();
         adapter=new AdapterFragmentCity(list, getActivity(), new AdapterFragmentCity.itemOnclick() {
             @Override

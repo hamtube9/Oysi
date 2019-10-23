@@ -36,6 +36,7 @@ public class FragmentCountryInTheWorld extends Fragment {
     List<Country> dulieu;
     AdapterFragmentCountryInTheWorld adapter;
     ArrayList<Country> list = new ArrayList<>();
+
     FrameLayout frameLayout;
     @Nullable
     @Override

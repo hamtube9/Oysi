@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.widget.SearchView;
+
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -25,6 +27,7 @@ import com.haiph.oysi.service.RetrofitService;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,6 +38,7 @@ public class FragmentStateofCountry extends Fragment {
     String key = "643d17a2-2def-469d-8c9b-bd90c5a7a550";
     AdapterFragmentStateOfCountry adapter;
     List<State> listState;
+    CircleImageView back;
     ArrayList<State> list= new ArrayList<>();
     @Nullable
     @Override
@@ -42,6 +46,16 @@ public class FragmentStateofCountry extends Fragment {
         View view=inflater.inflate(R.layout.fragment_state_of_country,container,false);
         rcViewStateofCountry=view.findViewById(R.id.rcViewStateofCountry);
         svStateofCountry=view.findViewById(R.id.svStateofCountry);
+        back=view.findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction=getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = new FragmentCountryInTheWorld();
+                fragmentTransaction.replace(R.id.framelayout,fragment);
+                fragmentTransaction.commit();
+            }
+        });
         list = getStateCraft();
         rcViewStateofCountry.setLayoutManager(new GridLayoutManager(getActivity(),2));
         adapter=new AdapterFragmentStateOfCountry(list, getActivity(), new AdapterFragmentStateOfCountry.ItemOnclickState() {

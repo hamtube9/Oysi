@@ -37,6 +37,10 @@ public class FilterHelperCountry extends Filter {
             filterResults.values=foundFilter;
 
         }
+        else{
+            filterResults.count=filterList.size();
+            filterResults.values=filterList;
+        }
         return filterResults;
     }
 
