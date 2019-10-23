@@ -108,6 +108,138 @@ public class AdapterMainFragment extends RecyclerView.Adapter<AdapterMainFragmen
             holder.iconCountry.setImageResource(R.drawable.germany);
         }else  if (holder.tvMain.getText().equals("Ghana")){
             holder.iconCountry.setImageResource(R.drawable.bulgaria);
+        }else if (holder.tvMain.getText().equals("Greece")){
+            holder.iconCountry.setImageResource(R.drawable.greece);
+        }else if (holder.tvMain.getText().equals("Guatemala")){
+            holder.iconCountry.setImageResource(R.drawable.guatemala);
+        }else if (holder.tvMain.getText().equals("Haiti")){
+            holder.iconCountry.setImageResource(R.drawable.haiti);
+        }else if (holder.tvMain.getText().equals("Hong Kong")){
+            holder.iconCountry.setImageResource(R.drawable.hongkong);
+        }else if (holder.tvMain.getText().equals("Hungary")){
+            holder.iconCountry.setImageResource(R.drawable.hungary);
+        }else if (holder.tvMain.getText().equals("Iceland")){
+            holder.iconCountry.setImageResource(R.drawable.iceland);
+        }else if (holder.tvMain.getText().equals("India")){
+            holder.iconCountry.setImageResource(R.drawable.india);
+        }else if (holder.tvMain.getText().equals("Indonesia")){
+            holder.iconCountry.setImageResource(R.drawable.indonesia);
+        }else if (holder.tvMain.getText().equals("Iran")){
+            holder.iconCountry.setImageResource(R.drawable.iran);
+        }else if (holder.tvMain.getText().equals("Iraq")){
+            holder.iconCountry.setImageResource(R.drawable.iraq);
+        }else if (holder.tvMain.getText().equals("Ireland")){
+            holder.iconCountry.setImageResource(R.drawable.ireland);
+        }else if (holder.tvMain.getText().equals("Israel")){
+            holder.iconCountry.setImageResource(R.drawable.israel);
+        }else if (holder.tvMain.getText().equals("Italy")){
+            holder.iconCountry.setImageResource(R.drawable.italy);
+        }else if (holder.tvMain.getText().equals("Ivory Coast")){
+            holder.iconCountry.setImageResource(R.drawable.ivory_coast);
+        }else if (holder.tvMain.getText().equals("Japan")){
+            holder.iconCountry.setImageResource(R.drawable.japan);
+        }else if (holder.tvMain.getText().equals("Jordan")){
+            holder.iconCountry.setImageResource(R.drawable.jordan);
+        }else if (holder.tvMain.getText().equals("Kazakhstan")){
+            holder.iconCountry.setImageResource(R.drawable.kazakhstan);
+        }else if (holder.tvMain.getText().equals("Kosovo")){
+            holder.iconCountry.setImageResource(R.drawable.kosovo);
+        }else if (holder.tvMain.getText().equals("Kuwait")){
+            holder.iconCountry.setImageResource(R.drawable.kuwait);
+        }else if (holder.tvMain.getText().equals("Kyrgyzstan")){
+            holder.iconCountry.setImageResource(R.drawable.kyrgyzstan);
+        }else if (holder.tvMain.getText().equals("Laos")){
+            holder.iconCountry.setImageResource(R.drawable.laos);
+        }else if (holder.tvMain.getText().equals("Latvia")){
+            holder.iconCountry.setImageResource(R.drawable.latvia);
+        }else if (holder.tvMain.getText().equals("Lithuania")){
+            holder.iconCountry.setImageResource(R.drawable.lithuania);
+        }else if (holder.tvMain.getText().equals("Luxembourg")){
+            holder.iconCountry.setImageResource(R.drawable.luxembourg);
+        }else if (holder.tvMain.getText().equals("Macao")){
+            holder.iconCountry.setImageResource(R.drawable.macao);
+        }else if (holder.tvMain.getText().equals("Macedonia")){
+            holder.iconCountry.setImageResource(R.drawable.macedonia);
+        }else if (holder.tvMain.getText().equals("Malaysia")){
+            holder.iconCountry.setImageResource(R.drawable.malaysia);
+        }else if (holder.tvMain.getText().equals("Malta")){
+            holder.iconCountry.setImageResource(R.drawable.malta);
+        }else if (holder.tvMain.getText().equals("Mexico")){
+            holder.iconCountry.setImageResource(R.drawable.mexico);
+        }else if (holder.tvMain.getText().equals("Mongolia")){
+            holder.iconCountry.setImageResource(R.drawable.mongolia);
+        }else if (holder.tvMain.getText().equals("Myanmar")){
+            holder.iconCountry.setImageResource(R.drawable.myanmar);
+        }else if (holder.tvMain.getText().equals("Nepal")){
+            holder.iconCountry.setImageResource(R.drawable.nepal);
+        }else if (holder.tvMain.getText().equals("Netherlands")){
+            holder.iconCountry.setImageResource(R.drawable.netherlands);
+        }else if (holder.tvMain.getText().equals("New Zealand")){
+            holder.iconCountry.setImageResource(R.drawable.newzealand);
+        }else if (holder.tvMain.getText().equals("Nigeria")){
+            holder.iconCountry.setImageResource(R.drawable.nigeria);
+        }else if (holder.tvMain.getText().equals("Norway")){
+            holder.iconCountry.setImageResource(R.drawable.norway);
+        }else if (holder.tvMain.getText().equals("Pakistan")){
+            holder.iconCountry.setImageResource(R.drawable.pakistan);
+        }else if (holder.tvMain.getText().equals("Peru")){
+            holder.iconCountry.setImageResource(R.drawable.peru);
+        }else if (holder.tvMain.getText().equals("Philippines")){
+            holder.iconCountry.setImageResource(R.drawable.philippines);
+        }else if (holder.tvMain.getText().equals("Poland")){
+            holder.iconCountry.setImageResource(R.drawable.poland);
+        } else if (holder.tvMain.getText().equals("Portugal")){
+            holder.iconCountry.setImageResource(R.drawable.portugal);
+        }else if (holder.tvMain.getText().equals("Puerto Rico")){
+            holder.iconCountry.setImageResource(R.drawable.puertorico);
+        }else if (holder.tvMain.getText().equals("Romania")){
+            holder.iconCountry.setImageResource(R.drawable.romania);
+        }else if (holder.tvMain.getText().equals("Russia")){
+            holder.iconCountry.setImageResource(R.drawable.russia);
+        }else if (holder.tvMain.getText().equals("San Marino")){
+            holder.iconCountry.setImageResource(R.drawable.sanmarino);
+        }else if (holder.tvMain.getText().equals("Saudi Arabia")){
+            holder.iconCountry.setImageResource(R.drawable.saudiarabia);
+        }else if (holder.tvMain.getText().equals("Serbia")){
+            holder.iconCountry.setImageResource(R.drawable.serbia);
+        }else if (holder.tvMain.getText().equals("Singapore")){
+            holder.iconCountry.setImageResource(R.drawable.singapore);
+        }else if (holder.tvMain.getText().equals("Slovakia")){
+            holder.iconCountry.setImageResource(R.drawable.slovakia);
+        }else if (holder.tvMain.getText().equals("Slovenia")){
+            holder.iconCountry.setImageResource(R.drawable.slovenia);
+        }else if (holder.tvMain.getText().equals("South Africa")){
+            holder.iconCountry.setImageResource(R.drawable.southafrica);
+        }else if (holder.tvMain.getText().equals("South Korea")){
+            holder.iconCountry.setImageResource(R.drawable.southkorea);
+        }else if (holder.tvMain.getText().equals("Spain")){
+            holder.iconCountry.setImageResource(R.drawable.spain);
+        }else if (holder.tvMain.getText().equals("Sri Lanka")){
+            holder.iconCountry.setImageResource(R.drawable.srilanka);
+        }else if (holder.tvMain.getText().equals("Sweden")){
+            holder.iconCountry.setImageResource(R.drawable.sweden);
+        }else if (holder.tvMain.getText().equals("Switzerland")){
+            holder.iconCountry.setImageResource(R.drawable.switzerland);
+        }else if (holder.tvMain.getText().equals("Taiwan")){
+            holder.iconCountry.setImageResource(R.drawable.taiwan);
+        }else if (holder.tvMain.getText().equals("Thailand")){
+            holder.iconCountry.setImageResource(R.drawable.thailand);
+        }else if (holder.tvMain.getText().equals("Uganda")){
+            holder.iconCountry.setImageResource(R.drawable.uganda);
+        }else if (holder.tvMain.getText().equals("Ukraine")){
+            holder.iconCountry.setImageResource(R.drawable.ukraine);
+        }else if (holder.tvMain.getText().equals("United Arab Emirates")){
+            holder.iconCountry.setImageResource(R.drawable.unitedarabemirates);
+        }else if (holder.tvMain.getText().equals("United Kingdom")){
+            holder.iconCountry.setImageResource(R.drawable.unitedkingdom);
+        }else if (holder.tvMain.getText().equals("USA")){
+            holder.iconCountry.setImageResource(R.drawable.unitedstates);
+        }else if (holder.tvMain.getText().equals("Uzbekistan")){
+            holder.iconCountry.setImageResource(R.drawable.uzbekistan);
+        }else if (holder.tvMain.getText().equals("Vietnam")){
+            holder.iconCountry.setImageResource(R.drawable.vietnam);
+        }else if (holder.tvMain.getText().equals("Yemen")){
+            holder.iconCountry.setImageResource(R.drawable.yemen);
         }
     }
 
