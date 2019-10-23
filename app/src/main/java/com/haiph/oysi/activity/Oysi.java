@@ -8,7 +8,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 
 import com.haiph.oysi.R;
-import com.haiph.oysi.fragment.FragmentMain;
+import com.haiph.oysi.fragment.FragmentCountryInTheWorld;
 import com.haiph.oysi.fragment.fragmentMyCountry;
 import com.haiph.oysi.fragment.fragmentWorldQuality;
 
@@ -25,7 +25,7 @@ public class Oysi extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oysi);
         List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new FragmentMain());
+        fragmentList.add(new FragmentCountryInTheWorld());
         fragmentList.add(new fragmentWorldQuality());
         fragmentList.add(new fragmentMyCountry());
         viewPager = findViewById(R.id.viewPager);

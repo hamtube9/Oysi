@@ -1,5 +1,5 @@
 
-package com.haiph.oysi.model.littlecity;
+package com.haiph.oysi.model.datacity;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

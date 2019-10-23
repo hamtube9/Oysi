@@ -19,29 +19,40 @@ import com.haiph.oysi.model.country.Country;
 
 import java.util.ArrayList;
 
-public class AdapterMainFragment extends RecyclerView.Adapter<AdapterMainFragment.ViewHolder> implements Filterable {
+public class AdapterFragmentCountryInTheWorld extends RecyclerView.Adapter<AdapterFragmentCountryInTheWorld.ViewHolder> implements Filterable {
     Context context;
     ArrayList<Country> listCurrent;
     ArrayList<Country> listFilter;
+    ItemOnclick itemOnclick;
 
 
-    public AdapterMainFragment(Context context, ArrayList<Country> listCurrent ) {
+    public AdapterFragmentCountryInTheWorld(Context context, ArrayList<Country> listCurrent,ItemOnclick itemOnclick ) {
         this.context = context;
         this.listCurrent = listCurrent;
         this.listFilter = listCurrent;
+        this.itemOnclick=itemOnclick;
     }
 
+    public interface ItemOnclick{
+         void itemOnclickListener(int position);
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_fragment_main, parent, false);
+        View view = inflater.inflate(R.layout.item_fragment_country_in_world, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.tvMain.setText(listCurrent.get(position).country);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemOnclick.itemOnclickListener(position);
+            }
+        });
         if (holder.tvMain.getText().equals("Afghanistan")){
             holder.iconCountry.setImageResource(R.drawable.afghanistan);
         } else  if (holder.tvMain.getText().equals("Algeria")){
@@ -250,6 +261,7 @@ public class AdapterMainFragment extends RecyclerView.Adapter<AdapterMainFragmen
 
     @Override
     public Filter getFilter() {
+
         return FilterHelperCountry.newInstance(listFilter,this);
     }
     public void setSpacecraft(ArrayList<Country> filteredSpacecraft){

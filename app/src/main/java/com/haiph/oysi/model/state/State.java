@@ -10,8 +10,6 @@ public class State {
 
     @Override
     public String toString() {
-        return "State{" +
-                "state='" + state + '\'' +
-                '}';
+        return state ;
     }
 }

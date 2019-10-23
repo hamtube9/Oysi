@@ -2,18 +2,18 @@ package com.haiph.oysi.filter;
 
 import android.widget.Filter;
 
-import com.haiph.oysi.adapter.AdapterMainFragment;
+import com.haiph.oysi.adapter.AdapterFragmentCountryInTheWorld;
 import com.haiph.oysi.model.country.Country;
 
 import java.util.ArrayList;
 
 public class FilterHelperCountry extends Filter {
     static ArrayList<Country> filterList;
-    static AdapterMainFragment adapter;
+    static AdapterFragmentCountryInTheWorld adapter;
 
 
 
-    public static FilterHelperCountry newInstance(ArrayList<Country> filterList, AdapterMainFragment adapter) {
+    public static FilterHelperCountry newInstance(ArrayList<Country> filterList, AdapterFragmentCountryInTheWorld adapter) {
         FilterHelperCountry.filterList=filterList;
         FilterHelperCountry.adapter=adapter;
         return new FilterHelperCountry();
