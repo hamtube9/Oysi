@@ -116,21 +116,21 @@ public class SweepAirQuality extends AppCompatActivity {
                     mWaveLoadingView.setAnimDuration(7000);
                     mWaveLoadingView.setWaveColor(Color.RED);
                     mWaveLoadingView.setBorderColor(Color.RED);
-                    mWaveLoadingView.setCenterTitle("Có sự ô nhiễm trong không khí "+"/n"+"Hãy đeo khẩu trang");
+                    mWaveLoadingView.setCenterTitle("Có sự ô nhiễm trong không khí");
                     mWaveLoadingView.startAnimation();
                 }else if (Integer.parseInt(tvGetKhongKhi.getText().toString())>=151 && Integer.parseInt(tvGetKhongKhi.getText().toString())<=200 ) {
                     mWaveLoadingView.setProgressValue(Integer.parseInt(tvGetKhongKhi.getText().toString()));
                     mWaveLoadingView.setAnimDuration(9000);
                     mWaveLoadingView.setWaveColor(Color.DKGRAY);
                     mWaveLoadingView.setBorderColor(Color.DKGRAY);
-                    mWaveLoadingView.setCenterTitle("Không khí ô nhiễm nặng nề "+"/n"+" Ra đường cần cẩn trọng");
+                    mWaveLoadingView.setCenterTitle("Không khí ô nhiễm nặng nề ");
                     mWaveLoadingView.startAnimation();
                 }else if (Integer.parseInt(tvGetKhongKhi.getText().toString())>=201  ) {
                     mWaveLoadingView.setProgressValue(Integer.parseInt(tvGetKhongKhi.getText().toString()));
                     mWaveLoadingView.setAnimDuration(10000);
                     mWaveLoadingView.setWaveColor(Color.GRAY);
                     mWaveLoadingView.setBorderColor(Color.GRAY);
-                    mWaveLoadingView.setCenterTitle("Ô nhiễm không khí nghiêm trọng /n Nên tránh ra đường");
+                    mWaveLoadingView.setCenterTitle("Ô nhiễm không khí nghiêm trọng ");
                     mWaveLoadingView.startAnimation();
                 }
 //

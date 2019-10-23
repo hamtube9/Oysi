@@ -10,6 +10,7 @@ import android.widget.SearchView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,7 +41,7 @@ public class FragmentMain extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         searchView = view.findViewById(R.id.searchView);
         rcView = view.findViewById(R.id.rcViewMain);
-        rcView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rcView.setLayoutManager(new GridLayoutManager(getActivity(),2));
         list = getSpacecraft();
         adapter = new AdapterMainFragment(getActivity(), list);
         rcView.setAdapter(adapter);

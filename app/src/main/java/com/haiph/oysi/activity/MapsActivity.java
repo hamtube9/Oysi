@@ -179,7 +179,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .target(latLng).zoom(14)
                     .bearing(98).build();
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),2000,null);
-            mMap.addCircle(new CircleOptions().center(latLng).radius(1200).strokeColor(Color.RED));
+            mMap.addCircle(new CircleOptions().center(latLng).radius(1000).strokeColor(Color.BLACK).strokeWidth(2));
 
             sweep.setOnClickListener(new View.OnClickListener() {
                 @Override
