@@ -21,8 +21,8 @@ import java.util.ArrayList;
 
 public class AdapterFragmentCountryInTheWorld extends RecyclerView.Adapter<AdapterFragmentCountryInTheWorld.ViewHolder> implements Filterable {
     Context context;
-    ArrayList<Country> listCurrent;//list chính
-    ArrayList<Country> listFilter;// list lọc
+    ArrayList<Country> listCurrent;
+    ArrayList<Country> listFilter;
     ItemOnclick itemOnclick;
 
 
@@ -266,8 +266,9 @@ public class AdapterFragmentCountryInTheWorld extends RecyclerView.Adapter<Adapt
         return FilterHelperCountry.newInstance(listFilter, this);
     }
 
-    public void setSpacecraft(ArrayList<Country> filteredSpacecraft) {
+    public void setCountryCraft(ArrayList<Country> filteredSpacecraft) {
         this.listCurrent = filteredSpacecraft;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

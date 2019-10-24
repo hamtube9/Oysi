@@ -13,22 +13,39 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.Builder;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -38,7 +55,10 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.haiph.oysi.R;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -47,12 +67,20 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.io.IOException;
+import java.security.Key;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+
+import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener {
-
-    ImageView sweep;
+    boolean showbutton;
+    FloatingActionButton sweep, fab;
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
     Location mLocation;
@@ -66,6 +94,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     boolean isPermission;
     public static final int MY_REQUEST_LOCATION = 1;
 
+    Animation closeRotate, openRotate;
+    SearchView searchMap;
+
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -73,8 +104,56 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        sweep=findViewById(R.id.sweep);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        closeRotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.close_rotate);
+        openRotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.open_rotate);
+        searchMap = findViewById(R.id.searchMap);
+        sweep = findViewById(R.id.sweep);
+        fab = findViewById(R.id.fabImage);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (showbutton == false) {
+                    openRotate.setDuration(100);
+                    fab.startAnimation(openRotate);
+                    fabShow();
+
+                    showbutton = true;
+                } else {
+                    closeRotate.setDuration(100);
+                    fab.startAnimation(closeRotate);
+                    fabHide();
+                    showbutton = false;
+                }
+            }
+        });
+
+        searchMap.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                String location = searchMap.getQuery().toString();
+                List<Address> addressList = null;
+                if (location != null || !location.equals("")) {
+                    Geocoder geocoder = new Geocoder(MapsActivity.this);
+                    try {
+                        addressList = geocoder.getFromLocationName(location, 1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Address address = addressList.get(0);
+                    LatLng latLngAddress = new LatLng(address.getLatitude(), address.getLongitude());
+                    mMap.addMarker(new MarkerOptions().position(latLngAddress).title(location));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngAddress,12));
+
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
 
         if (requestSinglePermission()) {
             SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -91,9 +170,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             checkLocation();
         }
+    }
 
 
+    private void fabShow() {
+        sweep.show();
+    }
 
+    private void fabHide() {
+        sweep.hide();
     }
 
     private boolean checkLocation() {
@@ -120,7 +205,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         dialog.show();
-
 
 
     }
@@ -178,36 +262,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             CameraPosition cameraPosition = CameraPosition.builder()
                     .target(latLng).zoom(14)
                     .bearing(98).build();
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),2000,null);
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 2000, null);
             mMap.addCircle(new CircleOptions().center(latLng).radius(1000).strokeColor(Color.BLACK).strokeWidth(2));
 
             sweep.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i =new Intent(MapsActivity.this,SweepAirQuality.class);
+                    Intent i = new Intent(MapsActivity.this, SweepAirQuality.class);
                     startActivity(i);
                 }
             });
 
         }
 
-
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//
-//                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},MY_REQUEST_LOCATION);
-//                return;
-//            }
-//
-//        }
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-//        mMap.animateCamera(CameraUpdateFactory.zoomTo(19.0f));
-
     }
+
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -217,11 +286,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
         startLocationUpdate();
-        mLocation =LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLocation==null){
+        mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLocation == null) {
             startLocationUpdate();
 
-        }else {
+        } else {
             Toast.makeText(this, "Đang lấy vị trí hiện tại", Toast.LENGTH_SHORT).show();
         }
     }
@@ -229,12 +298,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void startLocationUpdate() {
         mLocationRequest = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(UPDATE_INTERVAL).setFastestInterval(FASTED_INTERVAL);
+
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(mLocationRequest);
+        LocationSettingsRequest locationSettingsRequest = builder.build();
+        SettingsClient settingsClient = LocationServices.getSettingsClient(this);
+        settingsClient.checkLocationSettings(locationSettingsRequest);
+        getFusedLocationProviderClient(this).requestLocationUpdates(mLocationRequest, new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                onLocationChanged(locationResult.getLastLocation());
+            }
+        }, Looper.myLooper());
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        }
+    }
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -249,29 +333,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onLocationChanged(final Location location) {
 
-        String mess = "Cập nhật Vị trí" + Double.toString(location.getLatitude())+" "+Double.toString(location.getLongitude());
-        sharedPreferences = getSharedPreferences("Location",Context.MODE_PRIVATE);
+        String mess = "Cập nhật Vị trí" + Double.toString(location.getLatitude()) + " " + Double.toString(location.getLongitude());
+        sharedPreferences = getSharedPreferences("Location", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         editor.putString("Longitude", String.valueOf(location.getLongitude()));
         editor.putString("Latitude", String.valueOf(location.getLatitude()));
         editor.commit();
-
-
-
         Toast.makeText(this, mess, Toast.LENGTH_SHORT).show();
-
-
-        latLng = new LatLng(location.getLatitude(),location.getLongitude());
+        latLng = new LatLng(location.getLatitude(), location.getLongitude());
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
 
+    public void getLastLocation() {
+        // Get last known recent location using new Google Play Services SDK (v11+)
+        FusedLocationProviderClient locationClient = getFusedLocationProviderClient(this);
 
+        locationClient.getLastLocation()
+                .addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // GPS location can be null if GPS is switched off
+                        if (location != null) {
+                            onLocationChanged(location);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("MapDemoActivity", "Error trying to get last GPS location");
+                        e.printStackTrace();
+                    }
+                });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (mGoogleApiClient!=null){
+        if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
         }
     }
@@ -280,7 +380,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onStop() {
         super.onStop();
 
-        if (mGoogleApiClient!=null){
+        if (mGoogleApiClient != null) {
             mGoogleApiClient.disconnect();
         }
     }

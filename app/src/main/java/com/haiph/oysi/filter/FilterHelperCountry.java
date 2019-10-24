@@ -46,7 +46,7 @@ public class FilterHelperCountry extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        adapter.setSpacecraft( (ArrayList<Country>) results.values);
+        adapter.setCountryCraft( (ArrayList<Country>) results.values);
         adapter.notifyDataSetChanged();
 
     }

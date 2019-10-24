@@ -33,33 +33,33 @@ public class FragmentCountryInTheWorld extends Fragment {
     SearchView searchView;
     RecyclerView rcView;
     String key = "643d17a2-2def-469d-8c9b-bd90c5a7a550";
-    List<Country> dulieu;
     AdapterFragmentCountryInTheWorld adapter;
+
     ArrayList<Country> list = new ArrayList<>();
+    List<Country> dulieu;
 
     FrameLayout frameLayout;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_country_in_the_world, container, false);
         searchView = view.findViewById(R.id.searchView);
         rcView = view.findViewById(R.id.rcViewMain);
-        frameLayout=view.findViewById(R.id.framelayout);
+        frameLayout = view.findViewById(R.id.framelayout);
 
-        rcView.setLayoutManager(new GridLayoutManager(getActivity(),2));
-        list = getSpacecraft();
+        rcView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         adapter = new AdapterFragmentCountryInTheWorld(getActivity(), list, new AdapterFragmentCountryInTheWorld.ItemOnclick() {
             @Override
             public void itemOnclickListener(int position) {
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 Fragment fragment = new FragmentStateofCountry();
-                fragmentTransaction.replace(R.id.framelayout,fragment);
-
+                fragmentTransaction.replace(R.id.framelayout, fragment);
                 Country country = list.get(position);
                 String data = country.country;
-                Log.e("sendCountry",data);
+                Log.e("sendCountry", data);
                 Bundle b = new Bundle();
-                b.putString("country",data);
+                b.putString("country", data);
                 fragment.setArguments(b);
                 fragmentTransaction.commit();
             }
@@ -67,6 +67,7 @@ public class FragmentCountryInTheWorld extends Fragment {
         rcView.setAdapter(adapter);
 
         getData();
+        list = getSpacecraft();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -77,6 +78,7 @@ public class FragmentCountryInTheWorld extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 adapter.getFilter().filter(newText);
+
                 return false;
             }
         });
@@ -84,7 +86,6 @@ public class FragmentCountryInTheWorld extends Fragment {
     }
 
     private ArrayList<Country> getSpacecraft() {
-
         return list;
     }
 
