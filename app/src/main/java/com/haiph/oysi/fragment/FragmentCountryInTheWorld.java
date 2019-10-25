@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.FoldingCube;
 import com.haiph.oysi.R;
 import com.haiph.oysi.adapter.AdapterFragmentCountryInTheWorld;
 import com.haiph.oysi.model.country.Country;
@@ -35,12 +38,22 @@ public class FragmentCountryInTheWorld extends Fragment {
     RecyclerView rcView;
     String key = "643d17a2-2def-469d-8c9b-bd90c5a7a550";
     AdapterFragmentCountryInTheWorld adapter;
-
+    ProgressBar progressBar;
     ArrayList<Country> list = new ArrayList<>();
     ArrayList<Country> filterList = null;
     List<Country> dulieu;
-
     FrameLayout frameLayout;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
 
     @Nullable
     @Override
@@ -49,6 +62,9 @@ public class FragmentCountryInTheWorld extends Fragment {
         searchView = view.findViewById(R.id.searchView);
         rcView = view.findViewById(R.id.rcViewMain);
         frameLayout = view.findViewById(R.id.framelayout);
+        progressBar = view.findViewById(R.id.spin_kit);
+        Sprite doubleBounce = new FoldingCube();
+        progressBar.setIndeterminateDrawable(doubleBounce);
         rcView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         adapter = new AdapterFragmentCountryInTheWorld(getActivity(), list, new AdapterFragmentCountryInTheWorld.ItemOnclick() {
             @Override
@@ -111,6 +127,7 @@ public class FragmentCountryInTheWorld extends Fragment {
             @Override
             public void onResponse(Call<CountryResponse> call, Response<CountryResponse> response) {
                 if (response.isSuccessful() && response.code() == 200) {
+                    progressBar.setVisibility(View.INVISIBLE);
                     dulieu = response.body().data;
                     list.clear();
                     list.addAll(dulieu);

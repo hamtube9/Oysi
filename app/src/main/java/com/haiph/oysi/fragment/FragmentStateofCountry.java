@@ -41,6 +41,21 @@ public class FragmentStateofCountry extends Fragment {
     List<State> listState;
     CircleImageView back;
     ArrayList<State> list= new ArrayList<>();
+    String country;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle b = getArguments();
+         country = b.getString("country");
+        Log.e("getCountry",country+"");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,16 +63,13 @@ public class FragmentStateofCountry extends Fragment {
         rcViewStateofCountry=view.findViewById(R.id.rcViewStateofCountry);
         svStateofCountry=view.findViewById(R.id.svStateofCountry);
         back=view.findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fragmentTransaction=getActivity().getSupportFragmentManager().beginTransaction();
-                Fragment fragment = new FragmentCountryInTheWorld();
-                fragmentTransaction.replace(R.id.framelayout,fragment);
-                fragmentTransaction.commit();
+        setAdapter();
+        onClick();
+        getState();
+        return view;
+    }
 
-            }
-        });
+    private void setAdapter() {
         list = getStateCraft();
         rcViewStateofCountry.setLayoutManager(new GridLayoutManager(getActivity(),2));
         adapter=new AdapterFragmentStateOfCountry(list, getActivity(), new AdapterFragmentStateOfCountry.ItemOnclickState() {
@@ -67,14 +79,11 @@ public class FragmentStateofCountry extends Fragment {
                 Bundle b =getArguments();
                 String dataCountry = b.getString("country");
                 Log.e("dataCountry",dataCountry+"");
-
                 State state = list.get(position);
                 String dataState = state.state;
-
                 Bundle bundle = new Bundle();
                 bundle.putString("country",dataCountry);
                 bundle.putString("state",dataState);
-
                 Log.e("dataState",dataCountry + " "+dataState);
                 Fragment fragment = new FragmentCity();
                 fragment.setArguments(bundle);
@@ -85,7 +94,19 @@ public class FragmentStateofCountry extends Fragment {
         });
         rcViewStateofCountry.setAdapter(adapter);
 
-        getState();
+    }
+
+    public void onClick(){
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction=getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = new FragmentCountryInTheWorld();
+                fragmentTransaction.replace(R.id.framelayout,fragment);
+                fragmentTransaction.commit();
+
+            }
+        });
 
         svStateofCountry.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -100,7 +121,6 @@ public class FragmentStateofCountry extends Fragment {
                 return false;
             }
         });
-        return view;
     }
 
     public void filter(String text){
@@ -121,9 +141,7 @@ public class FragmentStateofCountry extends Fragment {
     }
 
     private void getState() {
-        Bundle b = getArguments();
-        String country = b.getString("country");
-        Log.e("getCountry",country+"");
+
 
         RetrofitService.getInstance().getAllState(country,key).enqueue(new Callback<StateResponse>() {
             @Override

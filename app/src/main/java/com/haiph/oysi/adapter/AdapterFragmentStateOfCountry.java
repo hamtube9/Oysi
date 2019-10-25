@@ -67,6 +67,7 @@ public class AdapterFragmentStateOfCountry extends RecyclerView.Adapter<AdapterF
     }
     public void setStateCraft(ArrayList<State> filteredStateCraft){
         this.listState=filteredStateCraft;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

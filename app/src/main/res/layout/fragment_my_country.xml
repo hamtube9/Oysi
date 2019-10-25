@@ -1,250 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:background="#ffffff"
     android:layout_height="match_parent">
-
-
-
-
     <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/item_fragmentmycountry"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        >
         <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/item_fragmentmycountry"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:orientation="horizontal"
             android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tvHanoi"
-                android:textColor="#000000"
-                android:layout_marginLeft="10dp"
-                android:textSize="25dp"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="wrap_content"></TextView>
+
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:orientation="horizontal"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/imgThoiTietHanoi"
-                    android:layout_width="32dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_height="32dp"
-                    android:src="@drawable/day"></ImageView>
                 <TextView
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/tvNhietDoHanoi"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="20dp"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvHanoi"
+                    android:textColor="#000000"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="25dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"></TextView>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_height="wrap_content"
-                    android:text="°C"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/imgThoiTietHanoi"
+                        android:layout_width="32dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="32dp"
+                        android:src="@drawable/day"></ImageView>
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/tvNhietDoHanoi"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"></TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_height="wrap_content"
+                        android:text="°C"/>
+
+
+                </LinearLayout>
+
 
 
             </LinearLayout>
+            <LinearLayout
 
+                android:id="@+id/bgImgHanoi"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/imgEmotionHanoi"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp">
+
+                    </ImageView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bgAQIHanoi"
+                    android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tvAQIHanoi"
+                        android:layout_width="wrap_content"
+                        android:text="139"
+                        android:textSize="34dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content"></TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="US AQI"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content"></TextView>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/bgAQIHanoi1"
+                    android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tvTipHanoi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:text="Moderated"></TextView>
+                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
         <LinearLayout
-
-            android:id="@+id/bgImgHanoi"
-            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/item_fragmentmycountry"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/imgEmotionHanoi"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp">
-
-                </ImageView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/bgAQIHanoi"
-                android:layout_width="0dp"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
-
-               <TextView
-                   android:id="@+id/tvAQIHanoi"
-                   android:layout_width="wrap_content"
-                   android:text="139"
-                   android:textSize="34dp"
-                   android:layout_marginTop="20dp"
-                   android:layout_gravity="center_horizontal"
-                   android:layout_height="wrap_content"></TextView>
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:text="US AQI"
-                    android:layout_marginTop="5dp"
-                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/tvHCM"
+                    android:textColor="#000000"
+                    android:textSize="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"></TextView>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/imgThoiTietHCM"
+                        android:layout_width="32dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="32dp"
+                        android:src="@drawable/day"></ImageView>
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/tvNhietDoHCM"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"></TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="°C"/>
+
+
+                </LinearLayout>
+
+
+
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/bgAQIHanoi1"
-                android:layout_width="0dp"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
+                android:id="@+id/bgImgHCM"
 
-                <TextView
-                    android:id="@+id/tvTipHanoi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
-                    android:text="Moderated"></TextView>
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/imgEmotionHCM"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp">
+
+                    </ImageView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bgAQIHCM"
+                    android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tvAQIHCM"
+                        android:layout_width="wrap_content"
+                        android:text="139"
+                        android:textSize="34dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content"></TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="US AQI"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content"></TextView>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/bgAQIHCM1"
+                    android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tvTipHCM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:text="Moderated"></TextView>
+                </LinearLayout>
             </LinearLayout>
+
         </LinearLayout>
+
+
+        <com.google.android.gms.maps.MapView
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="300dp"
+            android:layout_height="250dp"
+            android:id="@+id/miniMap"
+            ></com.google.android.gms.maps.MapView>
 
     </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/item_fragmentmycountry"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tvHCM"
-                android:textColor="#000000"
-                android:textSize="25dp"
-                android:layout_marginLeft="10dp"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="wrap_content"></TextView>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/imgThoiTietHCM"
-                    android:layout_width="32dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_height="32dp"
-                    android:src="@drawable/day"></ImageView>
-                <TextView
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/tvNhietDoHCM"
-                    android:textSize="20dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></TextView>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="°C"/>
-
-
-            </LinearLayout>
-
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/bgImgHCM"
-
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="100dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/imgEmotionHCM"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp">
-
-                </ImageView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/bgAQIHCM"
-                android:layout_width="0dp"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/tvAQIHCM"
-                    android:layout_width="wrap_content"
-                    android:text="139"
-                    android:textSize="34dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_height="wrap_content"></TextView>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:text="US AQI"
-                    android:layout_marginTop="5dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_height="wrap_content"></TextView>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/bgAQIHCM1"
-                android:layout_width="0dp"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/tvTipHCM"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
-                    android:text="Moderated"></TextView>
-            </LinearLayout>
-        </LinearLayout>
-
-    </LinearLayout>
 
 
 
 
-
-
-</LinearLayout>
+</ScrollView>
