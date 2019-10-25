@@ -12,7 +12,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -131,18 +133,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public boolean onQueryTextSubmit(String query) {
                 String location = searchMap.getQuery().toString();
-                List<Address> addressList = null;
+                List<Address> addressList = new ArrayList<>();
                 if (location != null || !location.equals("")) {
-                    Geocoder geocoder = new Geocoder(MapsActivity.this);
+                    Geocoder geocoder = new Geocoder(getApplicationContext());
                     try {
                         addressList = geocoder.getFromLocationName(location, 1);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Address address = addressList.get(0);
-                    LatLng latLngAddress = new LatLng(address.getLatitude(), address.getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(latLngAddress).title(location));
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngAddress,12));
+
+
+                        Address address = addressList.get(0);
+                        Log.e("addressText",address.toString());
+                        double latitude = address.getLatitude();
+                        double longitude = address.getLongitude();
+
+                        LatLng latLngAddress = new LatLng(latitude,longitude);
+
+                        mMap.addMarker(new MarkerOptions().position(latLngAddress).title("location"));
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngAddress,12));
+
+
+//                    else if(addressList.size() > 0) {
+//                        Address address2= addressList.get(0);
+//                        Log.e("address",address2.toString());
+//
+//                        String locality = address2.getLocality();
+//                        double latitude = address2.getLatitude();
+//                        double longitude = address2.getLongitude();
+//                        Log.e("locality",locality+"");
+//                        LatLng latLngAddress = new LatLng(latitude,longitude);
+//
+//                        mMap.addMarker(new MarkerOptions().position(latLngAddress).title("location"));
+//                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngAddress,12));
+//                    }
 
                 }
                 return false;

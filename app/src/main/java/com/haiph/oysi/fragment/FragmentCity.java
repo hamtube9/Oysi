@@ -47,7 +47,7 @@ public class FragmentCity extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction fragmentTransaction=getActivity().getSupportFragmentManager().beginTransaction();
-                Fragment fragment = new FragmentStateofCountry();
+                Fragment fragment = new FragmentCountryInTheWorld();
                 fragmentTransaction.replace(R.id.framelayout,fragment);
                 fragmentTransaction.commit();
             }

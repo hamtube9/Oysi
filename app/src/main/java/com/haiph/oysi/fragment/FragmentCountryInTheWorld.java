@@ -24,6 +24,7 @@ import com.haiph.oysi.service.RetrofitService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +37,7 @@ public class FragmentCountryInTheWorld extends Fragment {
     AdapterFragmentCountryInTheWorld adapter;
 
     ArrayList<Country> list = new ArrayList<>();
+    ArrayList<Country> filterList = null;
     List<Country> dulieu;
 
     FrameLayout frameLayout;
@@ -47,7 +49,6 @@ public class FragmentCountryInTheWorld extends Fragment {
         searchView = view.findViewById(R.id.searchView);
         rcView = view.findViewById(R.id.rcViewMain);
         frameLayout = view.findViewById(R.id.framelayout);
-
         rcView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         adapter = new AdapterFragmentCountryInTheWorld(getActivity(), list, new AdapterFragmentCountryInTheWorld.ItemOnclick() {
             @Override
@@ -65,7 +66,6 @@ public class FragmentCountryInTheWorld extends Fragment {
             }
         });
         rcView.setAdapter(adapter);
-
         getData();
         list = getSpacecraft();
 
@@ -74,9 +74,9 @@ public class FragmentCountryInTheWorld extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
+                filter(newText);
                 adapter.getFilter().filter(newText);
 
                 return false;
@@ -84,6 +84,23 @@ public class FragmentCountryInTheWorld extends Fragment {
         });
         return view;
     }
+
+    public void filter(String charText){
+        charText = searchView.getQuery().toString().toLowerCase(Locale.getDefault());
+        list.clear();
+        if (charText.length()==0){
+            list.addAll(dulieu);
+
+        }else {
+            for (Country country : dulieu){
+                if (country.country.toLowerCase().contains(charText)){
+                    list.add(country);
+                }
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
 
     private ArrayList<Country> getSpacecraft() {
         return list;
@@ -98,8 +115,6 @@ public class FragmentCountryInTheWorld extends Fragment {
                     list.clear();
                     list.addAll(dulieu);
                     adapter.notifyDataSetChanged();
-
-
                 }
             }
 

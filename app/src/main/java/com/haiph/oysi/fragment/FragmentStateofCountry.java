@@ -26,6 +26,7 @@ import com.haiph.oysi.service.RetrofitService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -54,6 +55,7 @@ public class FragmentStateofCountry extends Fragment {
                 Fragment fragment = new FragmentCountryInTheWorld();
                 fragmentTransaction.replace(R.id.framelayout,fragment);
                 fragmentTransaction.commit();
+
             }
         });
         list = getStateCraft();
@@ -72,9 +74,12 @@ public class FragmentStateofCountry extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("country",dataCountry);
                 bundle.putString("state",dataState);
+
+                Log.e("dataState",dataCountry + " "+dataState);
                 Fragment fragment = new FragmentCity();
                 fragment.setArguments(bundle);
                 fragmentTransaction.replace(R.id.framelayout,fragment);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });
@@ -90,11 +95,26 @@ public class FragmentStateofCountry extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                filter(newText);
                 adapter.getFilter().filter(newText);
                 return false;
             }
         });
         return view;
+    }
+
+    public void filter(String text){
+        text=svStateofCountry.getQuery().toString().toLowerCase(Locale.getDefault());
+        list.clear();
+        if (text.length()>0){
+            list.addAll(listState);
+        }
+        else {
+            for (State state : listState){
+                list.add(state);
+            }
+        }
+        adapter.notifyDataSetChanged();
     }
     private ArrayList<State> getStateCraft(){
         return list;

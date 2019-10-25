@@ -44,7 +44,8 @@
         android:layout_gravity="bottom|end"
         android:foregroundGravity="center_vertical"
         android:layout_marginBottom="110dp"
-        android:background="#c2e59c"
         android:visibility="invisible"
-        android:layout_marginRight="20dp"/>
+        android:backgroundTint="@color/polluted"
+        android:layout_marginEnd="23dp"
+        android:layout_marginRight="23dp"/>
 </FrameLayout>

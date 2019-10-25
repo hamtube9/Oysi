@@ -133,16 +133,7 @@ public class SweepAirQuality extends AppCompatActivity {
                     mWaveLoadingView.setCenterTitle("Ô nhiễm không khí nghiêm trọng ");
                     mWaveLoadingView.startAnimation();
                 }
-//
-//                mWaveLoadingView.setProgressValue(231);
-//                mWaveLoadingView.setBorderWidth(10);
-//                mWaveLoadingView.setAmplitudeRatio(60);
-//                mWaveLoadingView.setWaveColor(Color.GRAY);
-//                mWaveLoadingView.setBorderColor(Color.GRAY);
-//                mWaveLoadingView.startAnimation();
-//        mWaveLoadingView.pauseAnimation();
-//        mWaveLoadingView.resumeAnimation();
-//        mWaveLoadingView.cancelAnimation();
+
             }
         });
 
