@@ -3,6 +3,7 @@ package com.haiph.oysi.service;
 import com.haiph.oysi.response.CityResponse;
 import com.haiph.oysi.response.CurrentLocationRespone;
 import com.haiph.oysi.response.LittleCityResponse;
+import com.haiph.oysi.response.RankingResponse;
 import com.haiph.oysi.response.StateResponse;
 import com.haiph.oysi.response.CountryResponse;
 
@@ -30,7 +31,6 @@ public interface Service {
                                   @Query("key") String key);
 
     //api.airvisual.com/v2/nearest_city?lat=21.031263&lon=105.8509413&key=643d17a2-2def-469d-8c9b-bd90c5a7a550
-
     @GET("/v2/nearest_city")
     Call<CurrentLocationRespone> getCurrentLocation(@Query("lat") String lat,
                                                     @Query("lon") String lon,
@@ -46,4 +46,15 @@ public interface Service {
                                            @Query("country") String country,
                                            @Query("key") String key);
 
+
+    //api.airvisual.com/v2/nearest_city?lat=21.012252&lon=105.850843&key=643d17a2-2def-469d-8c9b-bd90c5a7a550
+    //api.airvisual.com/v2/nearest_station?lat=21.012252&lon=105.850843&key=643d17a2-2def-469d-8c9b-bd90c5a7a550
+    @GET("/v2/nearest_station")
+    Call<CurrentLocationRespone> getCity(@Query("lat") String lat,
+                                         @Query("lon") String lon,
+                                         @Query("key") String key);
+
+    //api.airvisual.com/v2/city_ranking?key=643d17a2-2def-469d-8c9b-bd90c5a7a550
+    @GET("/v2/city_ranking")
+    Call<RankingResponse> getRanking(@Query("key") String key);
 }

@@ -63,6 +63,14 @@ public class FragmentCountryInTheWorld extends Fragment {
         rcView = view.findViewById(R.id.rcViewMain);
         frameLayout = view.findViewById(R.id.framelayout);
         progressBar = view.findViewById(R.id.spin_kit);
+        initView();
+
+        getData();
+
+        return view;
+    }
+
+    private void initView() {
         Sprite doubleBounce = new FoldingCube();
         progressBar.setIndeterminateDrawable(doubleBounce);
         rcView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -82,7 +90,6 @@ public class FragmentCountryInTheWorld extends Fragment {
             }
         });
         rcView.setAdapter(adapter);
-        getData();
         list = getSpacecraft();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -98,8 +105,8 @@ public class FragmentCountryInTheWorld extends Fragment {
                 return false;
             }
         });
-        return view;
     }
+
 
     public void filter(String charText){
         charText = searchView.getQuery().toString().toLowerCase(Locale.getDefault());

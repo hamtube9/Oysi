@@ -9,8 +9,8 @@ import android.os.Bundle;
 
 import com.haiph.oysi.R;
 import com.haiph.oysi.fragment.FragmentCountryInTheWorld;
-import com.haiph.oysi.fragment.fragmentMyCountry;
-import com.haiph.oysi.fragment.fragmentWorldQuality;
+import com.haiph.oysi.fragment.FragmentRanking;
+import com.haiph.oysi.fragment.FragmentMyCountry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,17 +26,20 @@ public class Oysi extends AppCompatActivity {
         setContentView(R.layout.activity_oysi);
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new FragmentCountryInTheWorld());
-        fragmentList.add(new fragmentWorldQuality());
-        fragmentList.add(new fragmentMyCountry());
+        fragmentList.add(new FragmentMyCountry());
+        fragmentList.add(new FragmentRanking());
+
         viewPager = findViewById(R.id.viewPager);
         tabLayout =  findViewById(R.id.spaceTabLayout);
         tabLayout.initialize(viewPager,getSupportFragmentManager(),fragmentList,savedInstanceState);
-        tabLayout.setTabTwoIcon(R.drawable.location_bottombar);
         tabLayout.setTabTwoText("Map");
-        tabLayout.setTabOneIcon(R.drawable.list_bottombar);
+        tabLayout.setTabTwoIcon(R.drawable.locationcountry);
         tabLayout.setTabOneText("List");
-        tabLayout.setTabThreeText("Location");
-        tabLayout.setTabThreeIcon(R.drawable.locationcountry);
+        tabLayout.setTabOneIcon(R.drawable.listcountry);
+        tabLayout.setTabThreeText("Ranking");
+        tabLayout.setTabThreeIcon(R.drawable.list_bottombar);
+
+
 
     }
 

@@ -151,8 +151,6 @@ public class FragmentCity extends Fragment {
     }
 
     private void getCity() {
-
-
         RetrofitService.getInstance().getAllCity(state,country,key).enqueue(new Callback<CityResponse>() {
             @Override
             public void onResponse(Call<CityResponse> call, Response<CityResponse> response) {
@@ -170,4 +168,4 @@ public class FragmentCity extends Fragment {
         });
 
     }
-}
+  }
