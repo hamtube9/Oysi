@@ -6,6 +6,7 @@ import com.haiph.oysi.response.LittleCityResponse;
 import com.haiph.oysi.response.RankingResponse;
 import com.haiph.oysi.response.StateResponse;
 import com.haiph.oysi.response.CountryResponse;
+import com.haiph.oysi.response.StreetsResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -57,4 +58,10 @@ public interface Service {
     //api.airvisual.com/v2/city_ranking?key=643d17a2-2def-469d-8c9b-bd90c5a7a550
     @GET("/v2/city_ranking")
     Call<RankingResponse> getRanking(@Query("key") String key);
+
+    @GET("/v2/nearest_station")
+    Call<StreetsResponse> getStreets(@Query("lat") String lat,
+                                     @Query("lon") String lon,
+                                     @Query("key") String key);
+
 }

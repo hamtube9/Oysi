@@ -1,25 +1,28 @@
 package com.haiph.oysi.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.haiph.oysi.R;
+import com.haiph.oysi.model.ranking.Datum;
 import com.haiph.oysi.model.ranking.World;
 
 import java.util.List;
 
 public class AdapterRanking extends RecyclerView.Adapter<AdapterRanking.ViewHolder> {
     Context context;
-    List<World> list;
+    List<Datum> list;
 
-    public AdapterRanking(Context context, List<World> list) {
+    public AdapterRanking(Context context, List<Datum> list) {
         this.context = context;
         this.list = list;
     }
@@ -34,11 +37,21 @@ public class AdapterRanking extends RecyclerView.Adapter<AdapterRanking.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        World rank = list.get(position);
-        holder.tvCitiRanking.setText(rank.getData().get(position).getCity());
-        holder.tvCountryRanking.setText(rank.getData().get(position).getCountry());
-        holder.tvAQIranking.setText(rank.getData().get(position).getRanking().getCurrentAqi());
+        Datum rank = list.get(position);
+        holder.tvCitiRanking.setText(rank.getCity());
+        holder.tvCountryRanking.setText(rank.getCountry());
+        holder.tvAQIranking.setText(rank.getRanking().getCurrentAqi().toString());
 
+        if (position == 0){
+            holder.cardViewRanking.setBackgroundResource(R.drawable.ranking1);
+        }else if (position==1){
+            holder.cardViewRanking.setBackgroundResource(R.drawable.ranking2);
+        }else if (position==2){
+            holder.cardViewRanking.setBackgroundResource(R.drawable.ranking3);
+        }else {
+            holder.cardViewRanking.setBackgroundResource(R.drawable.border);
+
+        }
 
         if (holder.tvCountryRanking.getText().equals("Afghanistan")) {
             holder.imgRanking.setImageResource(R.drawable.afghanistan);
@@ -250,14 +263,14 @@ public class AdapterRanking extends RecyclerView.Adapter<AdapterRanking.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvCitiRanking, tvCountryRanking,tvAQIranking;
         ImageView imgRanking;
-
+        LinearLayout cardViewRanking;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvAQIranking=itemView.findViewById(R.id.tvAQIranking);
             tvCitiRanking=itemView.findViewById(R.id.tvrankingCity);
             tvCountryRanking=itemView.findViewById(R.id.tvCountryRanking);
             imgRanking=itemView.findViewById(R.id.imgRanking);
-
+            cardViewRanking=itemView.findViewById(R.id.cardViewRank);
         }
     }
 }

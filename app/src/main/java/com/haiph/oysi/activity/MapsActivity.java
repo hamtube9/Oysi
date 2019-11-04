@@ -93,26 +93,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         com.google.android.gms.location.LocationListener, View.OnClickListener {
     boolean showbutton;
     String key = "643d17a2-2def-469d-8c9b-bd90c5a7a550";
-    FloatingActionButton sweep, fab;
+    FloatingActionButton sweep, fab,fabthaydoimap;
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
     Location mLocation;
     LocationManager mLocationManager;
     LocationRequest mLocationRequest;
-    com.google.android.gms.location.LocationListener listener;
     long UPDATE_INTERVAL = 3000;
     long FASTED_INTERVAL = 60000;
     LocationManager locationManager;
     LatLng latLng;
     boolean isPermission;
-    public static final int MY_REQUEST_LOCATION = 1;
     Animation closeRotate, openRotate;
     SearchView searchMap;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-
-    String apiPlacesKey = "AIzaSyAxwwrQsYolvnpLaN6jDy__fwAtFeqgOwY";
-    PlacesClient placesClient;
+    int tt=15;
+    int t = 1;
+  //  String apiPlacesKey = "AIzaSyAxwwrQsYolvnpLaN6jDy__fwAtFeqgOwY";
 
 
     @Override
@@ -120,11 +118,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         initView();
-
-        if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), apiPlacesKey);
-        }
-
 
         if (requestSinglePermission()) {
             SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -146,27 +139,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         sweep = findViewById(R.id.sweep);
         fab = findViewById(R.id.fabImage);
         fab.setOnClickListener(this);
-
+        fabthaydoimap = findViewById(R.id.fabthaydoimap);
+        fabthaydoimap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                map();
+            }
+        });
         
         searchMap.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                String location = searchMap.getQuery().toString();
-                List<Address> addressList = null;
-                if (location != null || !location.equals("")) {
-                    Geocoder geocoder = new Geocoder(MapsActivity.this);
+                    String g = String.valueOf(searchMap.getQuery());
+
+                    Geocoder geocoder = new Geocoder(getBaseContext());
+                    List<Address> addresses = null;
+
                     try {
-                        addressList = geocoder.getFromLocationName(location, 1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Address address = addressList.get(0);
-                    Log.e("addressText", address.toString());
-                    double latitude = address.getLatitude();
-                    double longitude = address.getLongitude();
-                    LatLng latLngAddress = new LatLng(latitude, longitude);
-                    mMap.addMarker(new MarkerOptions().position(latLngAddress).title("location"));
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngAddress, 12));
+                        addresses = geocoder.getFromLocationName(g, 3);
+                        if (addresses != null && !addresses.equals(""))
+                            search(addresses);
+
+                    } catch (Exception e) {
+
                 }
                 return false;
             }
@@ -177,7 +172,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+    protected void search(List<Address> addresses) {
+        Address address = addresses.get(0);
+        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        markerOptions.title(address.getAddressLine(0));
+        tt=15;
+        mMap.clear();
+        mMap.addMarker(markerOptions);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(tt));
+    }
 
+    public void map(){
+        t+=1;
+        mMap.setMapType(t);
+        if(t==4){
+            t=0;
+        }
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -204,11 +218,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     private void fabShow() {
+        fabthaydoimap.show();
         sweep.show();
     }
 
     private void fabHide() {
         sweep.hide();
+        fabthaydoimap.hide();
     }
 
     private boolean checkLocation() {
@@ -272,7 +288,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MapsInitializer.initialize(getApplicationContext());
         mMap = googleMap;
         if (latLng != null) {
-            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             mMap.addMarker(new MarkerOptions().position(latLng).title("Marker in Current Location"))
                     .setIcon(BitmapDescriptorFactory.fromResource(R.drawable.human));
             CameraPosition cameraPosition = CameraPosition.builder()
@@ -283,50 +299,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             sweep.setOnClickListener(this);
         }
 
-        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
-            public void onMapClick(LatLng point){
-                Location location = new Location("Test");
-                location.setLatitude(point.latitude);
-                location.setLongitude(point.longitude);
-                (new GetAddressTask(MapsActivity.this)).execute();
-            }
-        });
+
     }
-    protected class GetAddressTask extends AsyncTask<Location, Void, String> {
-        Context localContext;
-        public GetAddressTask(Context context) {
-            super();
-            localContext = context;
-        }
 
-        @Override
-        protected String doInBackground(Location... params) {
-            Geocoder geocoder = new Geocoder(localContext, Locale.getDefault());
-            Location location = params[0];
-            List <Address> addresses = null;
-            try {
-                addresses = geocoder.getFromLocation(location.getLatitude(),
-                        location.getLongitude(), 1);
-            } catch (Exception exception) {
-                return "Error Message";
-            }
-            if (addresses != null && addresses.size() > 0) {
-                Address address = addresses.get(0);
-                String addressText = ((address.getMaxAddressLineIndex() > 0) ?
-                        address.getAddressLine(0) : "") +  ", " +
-                        address.getLocality() + ", " +
-                        address.getCountryName();
-                return addressText;
-            } else {
-                return getString(R.string.no_address_found);
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String address) {
-
-        }
-    }
 
 
     @Override
@@ -394,28 +369,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
-    public void getLastLocation() {
-        // Get last known recent location using new Google Play Services SDK (v11+)
-        FusedLocationProviderClient locationClient = getFusedLocationProviderClient(this);
 
-        locationClient.getLastLocation()
-                .addOnSuccessListener(new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // GPS location can be null if GPS is switched off
-                        if (location != null) {
-                            onLocationChanged(location);
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("MapDemoActivity", "Error trying to get last GPS location");
-                        e.printStackTrace();
-                    }
-                });
-    }
 
     @Override
     protected void onStart() {

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.haiph.oysi.R;
 import com.haiph.oysi.adapter.AdapterRanking;
+import com.haiph.oysi.model.ranking.Datum;
 import com.haiph.oysi.model.ranking.World;
 import com.haiph.oysi.response.RankingResponse;
 import com.haiph.oysi.service.RetrofitService;
@@ -26,7 +27,7 @@ import retrofit2.Response;
 
 public class FragmentRanking extends Fragment {
     private RecyclerView rcViewRank;
-    private ArrayList<World> list = new ArrayList<>();
+    private ArrayList<Datum> list = new ArrayList<>();
     private AdapterRanking adapter;
     private String key = "643d17a2-2def-469d-8c9b-bd90c5a7a550";
 
@@ -48,14 +49,10 @@ public class FragmentRanking extends Fragment {
             @Override
             public void onResponse(Call<RankingResponse> call, Response<RankingResponse> response) {
                 if (response.isSuccessful()){
-                    String responseData = String.valueOf(response.body().data);
+                    String responseData = response.body().data.toString();
                     Log.e("response",responseData+"");
-//                        list.addAll(response.body().data);
-//                        adapter.notifyDataSetChanged();
-
-
-
-
+                        list.addAll(response.body().data);
+                        adapter.notifyDataSetChanged();
                 }
             }
 

@@ -5,7 +5,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Ranking {
-
+//ong hiu chua :)
+    //oh rồi . thế thì lấy list datum đúng k/ uk
     @SerializedName("current_aqi")
     @Expose
     private Integer currentAqi;

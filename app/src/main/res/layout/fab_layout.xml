@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
@@ -48,4 +50,18 @@
         android:backgroundTint="@color/polluted"
         android:layout_marginEnd="23dp"
         android:layout_marginRight="23dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabthaydoimap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:foregroundGravity="center_vertical"
+        android:layout_marginBottom="170dp"
+        android:visibility="invisible"
+        android:backgroundTint="@color/polluted"
+        android:layout_marginEnd="23dp"
+        android:layout_marginRight="23dp"
+        android:src="@drawable/map"
+        />
 </FrameLayout>

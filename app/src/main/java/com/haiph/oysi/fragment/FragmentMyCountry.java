@@ -1,5 +1,6 @@
 package com.haiph.oysi.fragment;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
@@ -29,8 +30,10 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.haiph.oysi.R;
+import com.haiph.oysi.activity.MapsActivity;
 import com.haiph.oysi.response.CurrentLocationRespone;
 import com.haiph.oysi.response.LittleCityResponse;
+import com.haiph.oysi.response.StreetsResponse;
 import com.haiph.oysi.service.RetrofitService;
 
 import org.json.JSONArray;
@@ -57,7 +60,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
     MapView mapView;
     Button btngetlocation;
     LinearLayout bgAQIHCM, bgAQIHCM1, bgAQIHanoi, bgAQIHanoi1, bgImageHanoi, bgImageHCM;
-    int AQIcaugiay, AQIbadinh, AQIquocoai, AQIsocson, AQItayho, AQIthachthat, AQItrauquy,AQihbt,AQIhoankiem,AQIDongDa,AQIhangdau,AQItanmai,AQItrunghoa;
+    int AQIcaugiay, AQIbadinh, AQIquocoai, AQIsocson, AQItayho, AQIthachthat, AQItrauquy, AQihbt, AQIhoankiem, AQIDongDa, AQIhangdau, AQItanmai, AQItrunghoa;
 
     @Nullable
     @Override
@@ -66,6 +69,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
         getQuanCauGiay();
         getQuocOai();
         getHanoi();
+        getTrungHoa();
         getHCM();
         getQuocOai();
         getSocSon();
@@ -78,7 +82,14 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
         getHangDau();
         getTanMai();
         getDongDa();
-        btngetlocation=view.findViewById(R.id.btngetlocation);
+        btngetlocation = view.findViewById(R.id.btngetlocation);
+        btngetlocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), MapsActivity.class);
+                startActivity(i);
+            }
+        });
         tvHanoi = view.findViewById(R.id.tvHanoi);
         tvAQIHanoi = view.findViewById(R.id.tvAQIHanoi);
         tvTipHanoi = view.findViewById(R.id.tvTipHanoi);
@@ -272,7 +283,33 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
         LatLng hangdau = new LatLng(21.0399, 105.8473);
         LatLng dongda = new LatLng(21.012702, 105.828076);
         LatLng hoankiem = new LatLng(21.029469, 105.852175);
-        LatLng trunghoa = new LatLng(21.010255 ,105.799222);
+        LatLng trunghoa = new LatLng(21.010255, 105.799222);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("aqi", MODE_PRIVATE);
+        AQIcaugiay = sharedPreferences.getInt("aqi", 0);
+        SharedPreferences spBadinh = getActivity().getSharedPreferences("aqibadinh", MODE_PRIVATE);
+        AQIbadinh = spBadinh.getInt("aqi", 0);
+        SharedPreferences spQuocOai = getActivity().getSharedPreferences("aqiQuocOai", MODE_PRIVATE);
+        AQIquocoai = spQuocOai.getInt("aqi", 0);
+        SharedPreferences spTayHo = getActivity().getSharedPreferences("aqiTayHo", MODE_PRIVATE);
+        AQItayho = spTayHo.getInt("aqi", 0);
+        SharedPreferences spSocSon = getActivity().getSharedPreferences("aqiSocSon", MODE_PRIVATE);
+        AQIsocson = spSocSon.getInt("aqi", 0);
+        SharedPreferences spHoanKiem = getActivity().getSharedPreferences("aqiHoankiem", MODE_PRIVATE);
+        AQIhoankiem = spHoanKiem.getInt("aqi", 0);
+        SharedPreferences spTrauQuy = getActivity().getSharedPreferences("aqiTrauquy", MODE_PRIVATE);
+        AQItrauquy = spTrauQuy.getInt("aqi", 0);
+        SharedPreferences spThachThat = getActivity().getSharedPreferences("aqiThachthat", MODE_PRIVATE);
+        AQIthachthat = spThachThat.getInt("aqi", 0);
+        SharedPreferences spHBT = getActivity().getSharedPreferences("aqiHBT", MODE_PRIVATE);
+        AQihbt = spHBT.getInt("aqi", 0);
+        SharedPreferences spDongDa = getActivity().getSharedPreferences("aqiDongda", MODE_PRIVATE);
+        AQIDongDa = spDongDa.getInt("aqi", 0);
+        SharedPreferences spHangDau = getActivity().getSharedPreferences("aqihangdau", MODE_PRIVATE);
+        AQIhangdau = spHangDau.getInt("aqi", 0);
+        SharedPreferences spTanmai = getActivity().getSharedPreferences("aqiTanMai", MODE_PRIVATE);
+        AQItanmai = spTanmai.getInt("aqi", 0);
+        SharedPreferences spTrungHoa = getActivity().getSharedPreferences("aqitrunghoa", MODE_PRIVATE);
+        AQItrunghoa = spTrungHoa.getInt("aqi", 0);
 
         googleMap.addMarker(new MarkerOptions().position(latLngHCM).title("Ho Chi Minh city"))
                 .setIcon(BitmapDescriptorFactory.fromResource(R.drawable.flag));
@@ -283,10 +320,10 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
         googleMap.addMarker(new MarkerOptions().position(thachthat).title("Thạch Thất"));
         googleMap.addMarker(new MarkerOptions().position(trauquy).title("Trâu Quỳ"));
         googleMap.addMarker(new MarkerOptions().position(trunghoa).title("Trung Hòa"));
-        googleMap.addMarker(new MarkerOptions().position(tanmai).title("Định Công"));
+        googleMap.addMarker(new MarkerOptions().position(tanmai).title("Tân Mai"));
         googleMap.addMarker(new MarkerOptions().position(tayho).title("Tây Hồ"));
         googleMap.addMarker(new MarkerOptions().position(haibatrung).title("Hai Bà Trưng"));
-        googleMap.addMarker(new MarkerOptions().position(hangdau).title("Lăng chủ tịch Hồ Chí Minh"));
+        googleMap.addMarker(new MarkerOptions().position(hangdau).title("Hàng Đậu"));
         googleMap.addMarker(new MarkerOptions().position(dongda).title("Đống Đa"));
         googleMap.addMarker(new MarkerOptions().position(hoankiem).title("Hoàn Kiếm"));
 
@@ -294,7 +331,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
                 .target(hoankiem).zoom(12).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 2000, null);
         googleMap.addCircle(new CircleOptions().center(latLngHCM).radius(20000).strokeColor(Color.BLACK).strokeWidth(2));
-      //  googleMap.addCircle(new CircleOptions().center(latLngHN).radius(20000).strokeColor(Color.BLACK).strokeWidth(2));
+        googleMap.addCircle(new CircleOptions().center(latLngHN).radius(20000).strokeColor(Color.BLACK).strokeWidth(2));
         googleMap.addCircle(new CircleOptions().center(caugiay).radius(700).strokeColor(Color.BLACK).strokeWidth(2));
         googleMap.addCircle(new CircleOptions().center(badinh).radius(700).strokeColor(Color.BLACK).strokeWidth(2));
         googleMap.addCircle(new CircleOptions().center(quocOai).radius(700).strokeColor(Color.BLACK).strokeWidth(2));
@@ -309,9 +346,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
         googleMap.addCircle(new CircleOptions().center(trauquy).radius(700).strokeColor(Color.BLACK).strokeWidth(2));
         googleMap.addCircle(new CircleOptions().center(trunghoa).radius(700).strokeColor(Color.BLACK).strokeWidth(2));
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("aqi", MODE_PRIVATE);
-        AQIcaugiay = sharedPreferences.getInt("aqi", 0);
-        Log.e("caugiay",AQIcaugiay+"");
+
         if (AQIcaugiay < 50) {
             CircleOptions COcaugiay = new CircleOptions().center(caugiay).radius(700).
                     fillColor(Color.parseColor("#a8e05f")).
@@ -345,9 +380,8 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
             googleMap.addCircle(COcaugiay);
         }
 
-        SharedPreferences spBadinh = getActivity().getSharedPreferences("aqibadinh", MODE_PRIVATE);
-        AQIbadinh = spBadinh.getInt("aqi", 0);
-        Log.e("AQIbadinh",AQIbadinh+"");
+
+        Log.e("AQIbadinh", AQIbadinh + "");
 
         if (AQIbadinh < 50) {
             CircleOptions CObadinh = new CircleOptions().center(badinh).radius(700).
@@ -382,9 +416,6 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
             googleMap.addCircle(CObadinh);
         }
 
-        SharedPreferences spQuocOai = getActivity().getSharedPreferences("aqiQuocOai", MODE_PRIVATE);
-        AQIquocoai = spQuocOai.getInt("aqi", 0);
-        Log.e("AQIquocoai",AQIquocoai+"");
 
         if (AQIquocoai < 50) {
             CircleOptions COquocoai = new CircleOptions().center(quocOai).radius(700).
@@ -420,10 +451,6 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
         }
 
 
-        SharedPreferences spSocSon = getActivity().getSharedPreferences("aqiSocSon", MODE_PRIVATE);
-        AQIsocson = spSocSon.getInt("aqi", 0);
-        Log.e("AQIsocson",AQIsocson+"");
-
         if (AQIsocson < 50) {
             CircleOptions COsocson = new CircleOptions().center(SocSon).radius(700).
                     fillColor(Color.parseColor("#a8e05f")).
@@ -457,9 +484,8 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
             googleMap.addCircle(COsocson);
         }
 
-        SharedPreferences spTayHo = getActivity().getSharedPreferences("aqiTayHo", MODE_PRIVATE);
-        AQItayho = spTayHo.getInt("aqi", 0);
-        Log.e("AQItayho",AQItayho+"");
+
+
         if (AQItayho < 50) {
             CircleOptions COtayho = new CircleOptions().center(tayho).radius(700).
                     fillColor(Color.parseColor("#a8e05f")).
@@ -493,9 +519,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
             googleMap.addCircle(COtayho);
         }
 
-        SharedPreferences spThachThat = getActivity().getSharedPreferences("aqiThachthat", MODE_PRIVATE);
-        AQIthachthat = spThachThat.getInt("aqi", 0);
-        Log.e("AQIthachthat",AQIthachthat+"");
+        Log.e("AQIthachthat", AQIthachthat + "");
 
         if (AQIthachthat < 50) {
             CircleOptions COthachthat = new CircleOptions().center(thachthat).radius(700).
@@ -530,9 +554,6 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
             googleMap.addCircle(COthachthat);
         }
 
-        SharedPreferences spTrauQuy = getActivity().getSharedPreferences("aqiTrauquy", MODE_PRIVATE);
-        AQItrauquy = spTrauQuy.getInt("aqi", 0);
-        Log.e("AQItrauquy",AQItrauquy+"");
         if (AQItrauquy < 50) {
             CircleOptions COtrauquy = new CircleOptions().center(trauquy).radius(700).
                     fillColor(Color.parseColor("#a8e05f")).
@@ -566,9 +587,6 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
             googleMap.addCircle(COtrauquy);
         }
 
-        SharedPreferences spHBT = getActivity().getSharedPreferences("aqiHBT", MODE_PRIVATE);
-        AQihbt = spHBT.getInt("aqi",0);
-        Log.e("aqiHBT",AQihbt+"");
         if (AQihbt < 50) {
             CircleOptions COtrauquy = new CircleOptions().center(haibatrung).radius(700).
                     fillColor(Color.parseColor("#a8e05f")).
@@ -603,9 +621,6 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
         }
 
 
-        SharedPreferences spHoanKiem = getActivity().getSharedPreferences("aqiHoankiem", MODE_PRIVATE);
-       AQIhoankiem= spHoanKiem.getInt("aqi",0);
-       Log.e("aqihoankiem",""+AQIhoankiem);
         if (AQIhoankiem < 50) {
             CircleOptions COtrauquy = new CircleOptions().center(hoankiem).radius(700).
                     fillColor(Color.parseColor("#a8e05f")).
@@ -640,9 +655,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
         }
 
 
-        SharedPreferences spDongDa = getActivity().getSharedPreferences("aqiDongda", MODE_PRIVATE);
-        AQIDongDa = spDongDa.getInt("aqi",0);
-        Log.e("dongda",AQIDongDa+"");
+
         if (AQIDongDa < 50) {
             CircleOptions COdongda = new CircleOptions().center(dongda).radius(700).
                     fillColor(Color.parseColor("#a8e05f")).
@@ -676,9 +689,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
             googleMap.addCircle(COdongda);
         }
 
-        SharedPreferences spHangDau = getActivity().getSharedPreferences("aqihangdau", MODE_PRIVATE);
-        AQIhangdau = spHangDau.getInt("aqi",0);
-        Log.e("aqihangdau",AQIhangdau+"");
+
         if (AQIhangdau < 50) {
             CircleOptions COhangdau = new CircleOptions().center(hangdau).radius(700).
                     fillColor(Color.parseColor("#a8e05f")).
@@ -712,8 +723,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
             googleMap.addCircle(COhangdau);
         }
 
-        SharedPreferences spTanmai = getActivity().getSharedPreferences("aqiTanMai", MODE_PRIVATE);
-        AQItanmai = spTanmai.getInt("aqi",0);
+
         if (AQItanmai < 50) {
             CircleOptions COtanmai = new CircleOptions().center(tanmai).radius(700).
                     fillColor(Color.parseColor("#a8e05f")).
@@ -747,9 +757,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
             googleMap.addCircle(COtanmai);
         }
 
-        SharedPreferences spTrungHoa = getActivity().getSharedPreferences("aqitrunghoa", MODE_PRIVATE);
-        AQItrunghoa =spTrungHoa.getInt("aqi",0);
-        Log.e("aqiTrungHoa",AQItrunghoa+"");
+
         if (AQItrunghoa < 50) {
             CircleOptions COtrunghoa = new CircleOptions().center(trunghoa).radius(700).
                     fillColor(Color.parseColor("#a8e05f")).
@@ -797,7 +805,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
 
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("aqi", MODE_PRIVATE);
                     Editor editor = sharedPreferences.edit();
-                    editor.putInt("aqi",aqiCauGiay);
+                    editor.putInt("aqi", aqiCauGiay);
                     editor.commit();
 
 
@@ -810,6 +818,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
             }
         });
     }
+
     public void getlittleHanoi() {
         RetrofitService.getInstance().getLittleCity("Hanoi", "Hanoi", "Vietnam", key).enqueue(new Callback<LittleCityResponse>() {
             @Override
@@ -831,6 +840,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
             }
         });
     }
+
     public void getQuocOai() {
         RetrofitService.getInstance().getLittleCity("Quoc Oai", "Hanoi", "Vietnam", key).enqueue(new Callback<LittleCityResponse>() {
             @Override
@@ -851,6 +861,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
             }
         });
     }
+
     public void getSocSon() {
         RetrofitService.getInstance().getLittleCity("Soc Son", "Hanoi", "Vietnam", key).enqueue(new Callback<LittleCityResponse>() {
             @Override
@@ -872,6 +883,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
             }
         });
     }
+
     public void getTayHo() {
         RetrofitService.getInstance().getLittleCity("Tay Ho", "Hanoi", "Vietnam", key).enqueue(new Callback<LittleCityResponse>() {
             @Override
@@ -894,6 +906,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
             }
         });
     }
+
     public void getThachThat() {
         RetrofitService.getInstance().getLittleCity("Thach That", "Hanoi", "Vietnam", key).enqueue(new Callback<LittleCityResponse>() {
             @Override
@@ -915,13 +928,13 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
             }
         });
     }
+
     public void getTrauQuy() {
         RetrofitService.getInstance().getLittleCity("Trau Quy", "Hanoi", "Vietnam", key).enqueue(new Callback<LittleCityResponse>() {
             @Override
             public void onResponse(Call<LittleCityResponse> call, Response<LittleCityResponse> response) {
                 if (response.isSuccessful()) {
                     int aqiTrauQuy = response.body().data.getCurrent().getPollution().getAqius();
-                   Log.e("trauquy", response.body().data.getLocation().getCoordinates()+"");
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("aqiTrauquy", MODE_PRIVATE);
                     Editor editor = sharedPreferences.edit();
                     editor.putInt("aqi", aqiTrauQuy);
@@ -939,131 +952,133 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
 
 
     public void getHaiBaTrung() {
-        RetrofitService.getInstance().getCity("21.012252","105.850843",key).enqueue(new Callback<CurrentLocationRespone>() {
+        RetrofitService.getInstance().getStreets("21.012252", "105.850843", key).enqueue(new Callback<StreetsResponse>() {
             @Override
-            public void onResponse(Call<CurrentLocationRespone> call, Response<CurrentLocationRespone> response) {
+            public void onResponse(Call<StreetsResponse> call, Response<StreetsResponse> response) {
                 if (response.isSuccessful()) {
-                    int aqiHaibatrung = response.body().data.getCurrent().getPollution().getAqius();
+                    int aqiHaibatrung = response.body().data.getForecasts().get(0).getAqius();
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("aqiHBT", MODE_PRIVATE);
                     Editor editor = sharedPreferences.edit();
                     editor.putInt("aqi", aqiHaibatrung);
-                    Log.e("aqihbt",aqiHaibatrung+"");
+                    Log.e("aqihbt", aqiHaibatrung + "");
                     editor.commit();
 
                 }
             }
-
+// ngon đc rồi
             @Override
-            public void onFailure(Call<CurrentLocationRespone> call, Throwable t) {
+            public void onFailure(Call<StreetsResponse> call, Throwable t) {
 
             }
         });
     }
+
     public void getTanMai() {
-        RetrofitService.getInstance().getCity("20.9883","105.8549",key).enqueue(new Callback<CurrentLocationRespone>() {
+        RetrofitService.getInstance().getStreets("20.9883", "105.8549", key).enqueue(new Callback<StreetsResponse>() {
             @Override
-            public void onResponse(Call<CurrentLocationRespone> call, Response<CurrentLocationRespone> response) {
+            public void onResponse(Call<StreetsResponse> call, Response<StreetsResponse> response) {
                 if (response.isSuccessful()) {
-                    int aqiDinhCong = response.body().data.getCurrent().getPollution().getAqius();
+                    int aqiDinhCong =  response.body().data.getForecasts().get(0).getAqius();
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("aqiTanMai", MODE_PRIVATE);
                     Editor editor = sharedPreferences.edit();
                     editor.putInt("aqi", aqiDinhCong);
-                    Log.e("aqitanmai",aqiDinhCong+"");
+                    Log.e("aqitanmai", aqiDinhCong + "");
                     editor.commit();
 
                 }
             }
 
             @Override
-            public void onFailure(Call<CurrentLocationRespone> call, Throwable t) {
+            public void onFailure(Call<StreetsResponse> call, Throwable t) {
 
             }
         });
     }
-
 
 
     public void getHangDau() {
-        RetrofitService.getInstance().getCity("21.039379","105.837271",key).enqueue(new Callback<CurrentLocationRespone>() {
+        RetrofitService.getInstance().getStreets("21.039379", "105.837271", key).enqueue(new Callback<StreetsResponse>() {
             @Override
-            public void onResponse(Call<CurrentLocationRespone> call, Response<CurrentLocationRespone> response) {
+            public void onResponse(Call<StreetsResponse> call, Response<StreetsResponse> response) {
                 if (response.isSuccessful()) {
-                    int aqiLangChuTich = response.body().data.getCurrent().getPollution().getAqius();
+                    int aqiLangChuTich =  response.body().data.getForecasts().get(0).getAqius();
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("aqihangdau", MODE_PRIVATE);
                     Editor editor = sharedPreferences.edit();
                     editor.putInt("aqi", aqiLangChuTich);
-                    Log.e("aqihangdau",aqiLangChuTich+"");
+                    Log.e("aqihangdau", aqiLangChuTich + "");
                     editor.commit();
 
                 }
             }
 
             @Override
-            public void onFailure(Call<CurrentLocationRespone> call, Throwable t) {
+            public void onFailure(Call<StreetsResponse> call, Throwable t) {
 
             }
         });
     }
+
     public void getDongDa() {
-        RetrofitService.getInstance().getCity("21.012702","105.828076",key).enqueue(new Callback<CurrentLocationRespone>() {
+        RetrofitService.getInstance().getStreets("21.012702", "105.828076", key).enqueue(new Callback<StreetsResponse>() {
             @Override
-            public void onResponse(Call<CurrentLocationRespone> call, Response<CurrentLocationRespone> response) {
+            public void onResponse(Call<StreetsResponse> call, Response<StreetsResponse> response) {
                 if (response.isSuccessful()) {
-                    int aqiDongDa = response.body().data.getCurrent().getPollution().getAqius();
+                    int aqiDongDa =  response.body().data.getForecasts().get(0).getAqius();
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("aqiDongda", MODE_PRIVATE);
                     Editor editor = sharedPreferences.edit();
                     editor.putInt("aqi", aqiDongDa);
-                    Log.e("aqiDongDa",aqiDongDa+"");
+                    Log.e("aqiDongDa", aqiDongDa + "");
                     editor.commit();
 
                 }
             }
 
             @Override
-            public void onFailure(Call<CurrentLocationRespone> call, Throwable t) {
+            public void onFailure(Call<StreetsResponse> call, Throwable t) {
 
             }
         });
     }
+
     public void getHoanKiem() {
-        RetrofitService.getInstance().getCity("21.029469","105.852175",key).enqueue(new Callback<CurrentLocationRespone>() {
+        RetrofitService.getInstance().getStreets("21.029469", "105.852175", key).enqueue(new Callback<StreetsResponse>() {
             @Override
-            public void onResponse(Call<CurrentLocationRespone> call, Response<CurrentLocationRespone> response) {
+            public void onResponse(Call<StreetsResponse> call, Response<StreetsResponse> response) {
                 if (response.isSuccessful()) {
-                    int aqiHoanKiem = response.body().data.getCurrent().getPollution().getAqius();
+                    int aqiHoanKiem =  response.body().data.getForecasts().get(0).getAqius();
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("aqiHoankiem", MODE_PRIVATE);
                     Editor editor = sharedPreferences.edit();
                     editor.putInt("aqi", aqiHoanKiem);
-                    Log.e("aqiHoanKiem",aqiHoanKiem+"");
+                    Log.e("aqiHoanKiem", aqiHoanKiem + "");
                     editor.commit();
 
                 }
             }
 
             @Override
-            public void onFailure(Call<CurrentLocationRespone> call, Throwable t) {
+            public void onFailure(Call<StreetsResponse> call, Throwable t) {
 
             }
         });
     }
 
     public void getTrungHoa() {
-        RetrofitService.getInstance().getCity("21.010255","105.799222",key).enqueue(new Callback<CurrentLocationRespone>() {
+        RetrofitService.getInstance().getStreets("21.010255", "105.799222", key).enqueue(new Callback<StreetsResponse>() {
             @Override
-            public void onResponse(Call<CurrentLocationRespone> call, Response<CurrentLocationRespone> response) {
+            public void onResponse(Call<StreetsResponse> call, Response<StreetsResponse> response) {
                 if (response.isSuccessful()) {
-                    int aqiTrungHoa = response.body().data.getCurrent().getPollution().getAqius();
+                    int aqiTrungHoa =  response.body().data.getForecasts().get(0).getAqius();
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("aqitrunghoa", MODE_PRIVATE);
                     Editor editor = sharedPreferences.edit();
                     editor.putInt("aqi", aqiTrungHoa);
-                    Log.e("aqiTrungHoa",aqiTrungHoa+"");
+                    Log.e("aqiTrungHoa", aqiTrungHoa + "");
                     editor.commit();
 
                 }
             }
 
             @Override
-            public void onFailure(Call<CurrentLocationRespone> call, Throwable t) {
+            public void onFailure(Call<StreetsResponse> call, Throwable t) {
 
             }
         });
