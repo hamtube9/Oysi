@@ -17,28 +17,20 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Build;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.Builder;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -48,6 +40,7 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -58,8 +51,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AutocompletePrediction;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.haiph.oysi.R;
+import com.haiph.oysi.response.LittleCityResponse;
+import com.haiph.oysi.service.RetrofitService;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -67,51 +69,137 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.security.Key;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        com.google.android.gms.location.LocationListener {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        com.google.android.gms.location.LocationListener, View.OnClickListener {
     boolean showbutton;
-    FloatingActionButton sweep, fab;
+    String key = "643d17a2-2def-469d-8c9b-bd90c5a7a550";
+    FloatingActionButton sweep, fab,fabthaydoimap;
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
     Location mLocation;
     LocationManager mLocationManager;
     LocationRequest mLocationRequest;
-    com.google.android.gms.location.LocationListener listener;
     long UPDATE_INTERVAL = 3000;
-    long FASTED_INTERVAL = 30000;
+    long FASTED_INTERVAL = 60000;
     LocationManager locationManager;
     LatLng latLng;
     boolean isPermission;
-    public static final int MY_REQUEST_LOCATION = 1;
-
     Animation closeRotate, openRotate;
     SearchView searchMap;
-
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    int tt=15;
+    int t = 1;
+  //  String apiPlacesKey = "AIzaSyAxwwrQsYolvnpLaN6jDy__fwAtFeqgOwY";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        initView();
+
+        if (requestSinglePermission()) {
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+            mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+            mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+            checkLocation();
+        }
+    }
+
+    private void initView() {
         closeRotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.close_rotate);
         openRotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.open_rotate);
-        searchMap = findViewById(R.id.searchMap);
+       searchMap = findViewById(R.id.searchMap);
         sweep = findViewById(R.id.sweep);
         fab = findViewById(R.id.fabImage);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(this);
+        fabthaydoimap = findViewById(R.id.fabthaydoimap);
+        fabthaydoimap.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                map();
+            }
+        });
+        
+        searchMap.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                    String g = String.valueOf(searchMap.getQuery());
+
+                    Geocoder geocoder = new Geocoder(getBaseContext());
+                    List<Address> addresses = null;
+
+                    try {
+                        addresses = geocoder.getFromLocationName(g, 3);
+                        if (addresses != null && !addresses.equals(""))
+                            search(addresses);
+
+                    } catch (Exception e) {
+
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+    }
+    protected void search(List<Address> addresses) {
+        Address address = addresses.get(0);
+        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        markerOptions.title(address.getAddressLine(0));
+        tt=15;
+        mMap.clear();
+        mMap.addMarker(markerOptions);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(tt));
+    }
+
+    public void map(){
+        t+=1;
+        mMap.setMapType(t);
+        if(t==4){
+            t=0;
+        }
+    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sweep:
+                Intent i = new Intent(MapsActivity.this, SweepAirQuality.class);
+                startActivity(i);
+                break;
+            case R.id.fabImage:
                 if (showbutton == false) {
                     openRotate.setDuration(100);
                     fab.startAnimation(openRotate);
@@ -124,61 +212,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     fabHide();
                     showbutton = false;
                 }
-            }
-        });
-
-        searchMap.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                String location = searchMap.getQuery().toString();
-                List<Address> addressList = null;
-                if (location != null || !location.equals("")) {
-                    Geocoder geocoder = new Geocoder(MapsActivity.this);
-                    try {
-                        addressList = geocoder.getFromLocationName(location, 1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Address address = addressList.get(0);
-                    LatLng latLngAddress = new LatLng(address.getLatitude(), address.getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(latLngAddress).title(location));
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngAddress,12));
-
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-
-        if (requestSinglePermission()) {
-            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.map);
-            mapFragment.getMapAsync(this);
-
-
-            mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-
-            mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-            checkLocation();
+                break;
         }
     }
 
 
     private void fabShow() {
+        fabthaydoimap.show();
         sweep.show();
     }
 
     private void fabHide() {
         sweep.hide();
+        fabthaydoimap.hide();
     }
 
     private boolean checkLocation() {
@@ -205,13 +251,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         dialog.show();
-
-
     }
 
     private boolean isLocationEnabled() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
@@ -240,42 +283,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return isPermission;
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        MapsInitializer.initialize(getApplicationContext());
         mMap = googleMap;
-
-
         if (latLng != null) {
-            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             mMap.addMarker(new MarkerOptions().position(latLng).title("Marker in Current Location"))
                     .setIcon(BitmapDescriptorFactory.fromResource(R.drawable.human));
             CameraPosition cameraPosition = CameraPosition.builder()
-                    .target(latLng).zoom(14)
+                    .target(latLng).zoom(10)
                     .bearing(98).build();
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 2000, null);
             mMap.addCircle(new CircleOptions().center(latLng).radius(1000).strokeColor(Color.BLACK).strokeWidth(2));
-
-            sweep.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(MapsActivity.this, SweepAirQuality.class);
-                    startActivity(i);
-                }
-            });
-
+            sweep.setOnClickListener(this);
         }
 
+
     }
+
 
 
     @Override
@@ -304,7 +330,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(mLocationRequest);
         LocationSettingsRequest locationSettingsRequest = builder.build();
@@ -332,7 +357,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(final Location location) {
-
         String mess = "Cập nhật Vị trí" + Double.toString(location.getLatitude()) + " " + Double.toString(location.getLongitude());
         sharedPreferences = getSharedPreferences("Location", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -345,28 +369,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
-    public void getLastLocation() {
-        // Get last known recent location using new Google Play Services SDK (v11+)
-        FusedLocationProviderClient locationClient = getFusedLocationProviderClient(this);
 
-        locationClient.getLastLocation()
-                .addOnSuccessListener(new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // GPS location can be null if GPS is switched off
-                        if (location != null) {
-                            onLocationChanged(location);
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("MapDemoActivity", "Error trying to get last GPS location");
-                        e.printStackTrace();
-                    }
-                });
-    }
 
     @Override
     protected void onStart() {
@@ -384,4 +387,58 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mGoogleApiClient.disconnect();
         }
     }
+
+    public void getQuanCauGiay() {
+        RetrofitService.getInstance().getLittleCity("Cau Giay", "Hanoi", "Vietnam", key).enqueue(new Callback<LittleCityResponse>() {
+            @Override
+            public void onResponse(Call<LittleCityResponse> call, Response<LittleCityResponse> response) {
+                if (response.isSuccessful()) {
+                    List<Double> array = response.body().data.getLocation().getCoordinates();
+                    double latCauGiay = array.get(0);
+                    double longCaugiay = array.get(1);
+                    int nhietdoCauGiay = response.body().data.getCurrent().getWeather().getTp();
+                    int aqiCauGiay = response.body().data.getCurrent().getPollution().getAqius();
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("latlongCauGiay", MODE_PRIVATE);
+                    SharedPreferences.Editor editCauGiay = sharedPreferences.edit();
+                    editCauGiay.putString("latCauGiay", String.valueOf(latCauGiay));
+                    editCauGiay.putString("longCauGiay", String.valueOf(longCaugiay));
+                    editCauGiay.putString("aqiCauGiay", String.valueOf(aqiCauGiay));
+                    editCauGiay.commit();
+
+//                    SharedPreferences sharedPreferences = getSharedPreferences("latlongCauGiay",MODE_PRIVATE);
+//                    String latCauGiay =sharedPreferences.getString("latCauGiay","");
+//                    String longCauGiay = sharedPreferences.getString("longCauGiay","");
+//                    int aqiCauGiay = Integer.parseInt(sharedPreferences.getString("aqiCauGiay",""));
+//                    Log.e("latlng",latCauGiay + " "+longCauGiay+ " "+ aqiCauGiay);
+//                    LatLng latLngCauGiay = new LatLng(Double.parseDouble(latCauGiay),Double.parseDouble(longCauGiay));
+//                    Log.e("caugiay", latLngCauGiay+"");
+//                    mMap.addMarker(new MarkerOptions().position(latLngCauGiay).title("Cầu giấy"));
+//                    CircleOptions CauGiayOption = new CircleOptions();
+//                    mMap.addCircle(CauGiayOption.center(latLngCauGiay).radius(1000).strokeColor(Color.BLACK).strokeWidth(2));
+//                    if (aqiCauGiay<50){
+//                        CauGiayOption.fillColor(Color.parseColor("#a8e05f"));
+//                    }else if (aqiCauGiay>=50 && aqiCauGiay<100){
+//                        CauGiayOption.fillColor(Color.parseColor("#fdd74b"));
+//
+//                    }else if (aqiCauGiay>=100 &&aqiCauGiay<150){
+//                        CauGiayOption.fillColor(Color.parseColor("#fe9b57"));
+//
+//                    }else  if (aqiCauGiay>=150 && aqiCauGiay<200){
+//                        CauGiayOption.fillColor(Color.parseColor("#fe6a69"));
+//
+//                    }else if (aqiCauGiay>200){
+//                        CauGiayOption.fillColor(Color.parseColor("#940045"));
+//                    }
+//
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LittleCityResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
 }

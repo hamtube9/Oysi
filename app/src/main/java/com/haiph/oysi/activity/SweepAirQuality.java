@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -97,8 +98,8 @@ public class SweepAirQuality extends AppCompatActivity {
                     if (Integer.parseInt(tvGetKhongKhi.getText().toString())>=1 && Integer.parseInt(tvGetKhongKhi.getText().toString())<=50){
                     mWaveLoadingView.setProgressValue(Integer.parseInt(tvGetKhongKhi.getText().toString()));
                     mWaveLoadingView.setAnimDuration(3000);
-                    mWaveLoadingView.setWaveColor(Color.GREEN);
-                    mWaveLoadingView.setBorderColor(Color.GREEN);
+                    mWaveLoadingView.setWaveColor(Color.parseColor("#a8e05f"));
+                    mWaveLoadingView.setBorderColor(Color.parseColor("#93e627"));
                     mWaveLoadingView.setCenterTitle("Không khí trong lành");
 
                     mWaveLoadingView.startAnimation();
@@ -106,43 +107,35 @@ public class SweepAirQuality extends AppCompatActivity {
                 }else if (Integer.parseInt(tvGetKhongKhi.getText().toString())>=51 && Integer.parseInt(tvGetKhongKhi.getText().toString())<=100) {
                     mWaveLoadingView.setProgressValue(Integer.parseInt(tvGetKhongKhi.getText().toString()));
                     mWaveLoadingView.setAnimDuration(5000);
-                    mWaveLoadingView.setWaveColor(Color.YELLOW);
-                    mWaveLoadingView.setBorderColor(Color.YELLOW);
+                    mWaveLoadingView.setWaveColor(Color.parseColor("#fdd74b"));
+                    mWaveLoadingView.setBorderColor(Color.parseColor("#ffcc00"));
+
                     mWaveLoadingView.setCenterTitle("Không khí có chút bụi bẩn");
                     mWaveLoadingView.setCenterTitleColor(Color.GRAY);
                     mWaveLoadingView.startAnimation();
                 }else if (Integer.parseInt(tvGetKhongKhi.getText().toString())>=101 && Integer.parseInt(tvGetKhongKhi.getText().toString())<=150 ) {
                     mWaveLoadingView.setProgressValue(Integer.parseInt(tvGetKhongKhi.getText().toString()));
                     mWaveLoadingView.setAnimDuration(7000);
-                    mWaveLoadingView.setWaveColor(Color.RED);
-                    mWaveLoadingView.setBorderColor(Color.RED);
+                    mWaveLoadingView.setWaveColor(Color.parseColor("#fe9b57"));
+                    mWaveLoadingView.setBorderColor(Color.parseColor("#f97f2c"));
                     mWaveLoadingView.setCenterTitle("Có sự ô nhiễm trong không khí");
                     mWaveLoadingView.startAnimation();
                 }else if (Integer.parseInt(tvGetKhongKhi.getText().toString())>=151 && Integer.parseInt(tvGetKhongKhi.getText().toString())<=200 ) {
                     mWaveLoadingView.setProgressValue(Integer.parseInt(tvGetKhongKhi.getText().toString()));
                     mWaveLoadingView.setAnimDuration(9000);
-                    mWaveLoadingView.setWaveColor(Color.DKGRAY);
-                    mWaveLoadingView.setBorderColor(Color.DKGRAY);
+                    mWaveLoadingView.setWaveColor(Color.parseColor("#fe6a69"));
+                    mWaveLoadingView.setBorderColor(Color.parseColor("#ff4645"));
                     mWaveLoadingView.setCenterTitle("Không khí ô nhiễm nặng nề ");
                     mWaveLoadingView.startAnimation();
                 }else if (Integer.parseInt(tvGetKhongKhi.getText().toString())>=201  ) {
                     mWaveLoadingView.setProgressValue(Integer.parseInt(tvGetKhongKhi.getText().toString()));
                     mWaveLoadingView.setAnimDuration(10000);
-                    mWaveLoadingView.setWaveColor(Color.GRAY);
-                    mWaveLoadingView.setBorderColor(Color.GRAY);
+                    mWaveLoadingView.setWaveColor(Color.parseColor("#84002c"));
+                    mWaveLoadingView.setBorderColor(Color.parseColor("#940045"));
                     mWaveLoadingView.setCenterTitle("Ô nhiễm không khí nghiêm trọng ");
                     mWaveLoadingView.startAnimation();
                 }
-//
-//                mWaveLoadingView.setProgressValue(231);
-//                mWaveLoadingView.setBorderWidth(10);
-//                mWaveLoadingView.setAmplitudeRatio(60);
-//                mWaveLoadingView.setWaveColor(Color.GRAY);
-//                mWaveLoadingView.setBorderColor(Color.GRAY);
-//                mWaveLoadingView.startAnimation();
-//        mWaveLoadingView.pauseAnimation();
-//        mWaveLoadingView.resumeAnimation();
-//        mWaveLoadingView.cancelAnimation();
+
             }
         });
 
