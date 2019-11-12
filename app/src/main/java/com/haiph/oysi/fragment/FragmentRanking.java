@@ -29,7 +29,7 @@ public class FragmentRanking extends Fragment {
     private RecyclerView rcViewRank;
     private ArrayList<Datum> list = new ArrayList<>();
     private AdapterRanking adapter;
-    private String key = "643d17a2-2def-469d-8c9b-bd90c5a7a550";
+    private String key = "61abeb98-9035-4d63-86fb-6dfaa3992737";
 
     @Nullable
     @Override

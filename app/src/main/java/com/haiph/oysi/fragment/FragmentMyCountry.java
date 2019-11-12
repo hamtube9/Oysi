@@ -73,7 +73,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
     ShareDialog shareDialog;
     CallbackManager callbackManager;
 
-    String key = "643d17a2-2def-469d-8c9b-bd90c5a7a550";
+    String key = "61abeb98-9035-4d63-86fb-6dfaa3992737";
     int aqi, nhietdo;
     GoogleMap mMaps;
     MapView mapView;
@@ -81,6 +81,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
     LinearLayout bgAQIHCM, bgAQIHCM1, bgAQIHanoi, bgAQIHanoi1, bgImageHanoi, bgImageHCM;
     int AQIcaugiay, AQIbadinh, AQIquocoai, AQIsocson, AQItayho, AQIthachthat, AQItrauquy, AQihbt, AQIhoankiem, AQIDongDa, AQIhangdau, AQItanmai, AQItrunghoa;
 
+    int citiHanoi;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -143,16 +144,16 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
         FacebookSdk.sdkInitialize(this.getContext());
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
-
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("aqiHanoi",MODE_PRIVATE);
+        int aqiHanoiCity = sharedPreferences.getInt("aqiHanoi",0);
+         citiHanoi = Integer.parseInt(tvAQIHanoi.getText().toString());
+        Log.e("c",citiHanoi+"");
 
         sharebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("aqiHanoi",MODE_PRIVATE);
-                int aqiHanoiCity = sharedPreferences.getInt("aqiHanoi",0);
-                int c = aqiHanoiCity;
-                Log.e("c",c+"");
-                String ct = "Mức độ ô nhiễm đang ở mức "+c+" bạn nên chú ý nhé";
+
+                String ct = "Mức độ ô nhiễm đang ở mức "+citiHanoi+" bạn nên chú ý nhé";
                 ShareLinkContent content = new ShareLinkContent.Builder()
                         .setQuote(ct)
                         .setContentUrl(Uri.parse("https://www.airvisual.com/vietnam/hanoi"))
