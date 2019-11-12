@@ -3,9 +3,14 @@ package com.haiph.oysi.fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +24,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookSdk;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -40,6 +51,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -54,6 +67,12 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
     TextView tvTipHanoi, tvTipHCM;
     ImageView imgThoiTietHanoi, imgEmotionHanoi;
     ImageView imgThoiTietHCM, imgEmotionHCM;
+
+
+    Button sharebtn;
+    ShareDialog shareDialog;
+    CallbackManager callbackManager;
+
     String key = "643d17a2-2def-469d-8c9b-bd90c5a7a550";
     int aqi, nhietdo;
     GoogleMap mMaps;
@@ -90,6 +109,8 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
                 startActivity(i);
             }
         });
+
+
         tvHanoi = view.findViewById(R.id.tvHanoi);
         tvAQIHanoi = view.findViewById(R.id.tvAQIHanoi);
         tvTipHanoi = view.findViewById(R.id.tvTipHanoi);
@@ -99,6 +120,7 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
         bgAQIHanoi = view.findViewById(R.id.bgAQIHanoi);
         bgAQIHanoi1 = view.findViewById(R.id.bgAQIHanoi1);
         bgImageHanoi = view.findViewById(R.id.bgImgHanoi);
+        sharebtn=view.findViewById(R.id.share);
 
         tvHCM = view.findViewById(R.id.tvHCM);
         tvAQIHCM = view.findViewById(R.id.tvAQIHCM);
@@ -118,8 +140,32 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
         }
 
 
+        FacebookSdk.sdkInitialize(this.getContext());
+        callbackManager = CallbackManager.Factory.create();
+        shareDialog = new ShareDialog(this);
+
+
+        sharebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("aqiHanoi",MODE_PRIVATE);
+                int aqiHanoiCity = sharedPreferences.getInt("aqiHanoi",0);
+                int c = aqiHanoiCity;
+                Log.e("c",c+"");
+                String ct = "Mức độ ô nhiễm đang ở mức "+c+" bạn nên chú ý nhé";
+                ShareLinkContent content = new ShareLinkContent.Builder()
+                        .setQuote(ct)
+                        .setContentUrl(Uri.parse("https://www.airvisual.com/vietnam/hanoi"))
+                        .build();
+                if(ShareDialog.canShow(ShareLinkContent.class)){
+                    shareDialog.show(content);
+                }
+            }
+        });
+
         return view;
     }
+
 
 
     private void getHCM() {
@@ -200,11 +246,18 @@ public class FragmentMyCountry extends Fragment implements OnMapReadyCallback {
                 if (response.isSuccessful() && response.code() == 200) {
                     Log.e("mycountry", response.body().data.getCity() + "");
                     tvHanoi.setText(response.body().data.getCity());
+                    Log.e("aqiHanoi", aqi + "");
+
                     aqi = response.body().data.getCurrent().getPollution().getAqius();
-                    Log.e("aqi", aqi + "");
-                    tvAQIHanoi.setText(String.valueOf(aqi));
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("aqiHanoi",MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("aqiHanoi",aqi);
+                    tvAQIHanoi.setText(aqi+"");
                     nhietdo = response.body().data.getCurrent().getWeather().getTp();
                     tvNhietDoHanoi.setText(String.valueOf(nhietdo));
+
+
+
 
                     if (aqi > 0 && aqi < 50) {
                         imgEmotionHanoi.setImageResource(R.drawable.veryhappy);

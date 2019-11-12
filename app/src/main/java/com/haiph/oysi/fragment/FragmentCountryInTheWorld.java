@@ -16,8 +16,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.ybq.android.spinkit.sprite.Sprite;
-import com.github.ybq.android.spinkit.style.FoldingCube;
+//import com.github.ybq.android.spinkit.sprite.Sprite;
+//import com.github.ybq.android.spinkit.style.FoldingCube;
 import com.haiph.oysi.R;
 import com.haiph.oysi.adapter.AdapterFragmentCountryInTheWorld;
 import com.haiph.oysi.model.country.Country;
@@ -62,7 +62,7 @@ public class FragmentCountryInTheWorld extends Fragment {
         searchView = view.findViewById(R.id.searchView);
         rcView = view.findViewById(R.id.rcViewMain);
         frameLayout = view.findViewById(R.id.framelayout);
-        progressBar = view.findViewById(R.id.spin_kit);
+        //progressBar = view.findViewById(R.id.spin_kit);
         initView();
 
         getData();
@@ -71,8 +71,8 @@ public class FragmentCountryInTheWorld extends Fragment {
     }
 
     private void initView() {
-        Sprite doubleBounce = new FoldingCube();
-        progressBar.setIndeterminateDrawable(doubleBounce);
+        //Sprite doubleBounce = new FoldingCube();
+        //progressBar.setIndeterminateDrawable(doubleBounce);
         rcView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         adapter = new AdapterFragmentCountryInTheWorld(getActivity(), list, new AdapterFragmentCountryInTheWorld.ItemOnclick() {
             @Override
@@ -134,7 +134,7 @@ public class FragmentCountryInTheWorld extends Fragment {
             @Override
             public void onResponse(Call<CountryResponse> call, Response<CountryResponse> response) {
                 if (response.isSuccessful() && response.code() == 200) {
-                    progressBar.setVisibility(View.INVISIBLE);
+                   // progressBar.setVisibility(View.INVISIBLE);
                     dulieu = response.body().data;
                     list.clear();
                     list.addAll(dulieu);

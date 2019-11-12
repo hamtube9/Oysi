@@ -256,10 +256,15 @@
                             android:id="@+id/tvTipHanoi"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="20dp"
                             android:text="Moderated"></TextView>
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="share"
+                            android:id="@+id/share"></Button>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -371,7 +376,7 @@
                             android:id="@+id/tvTipHCM"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="20dp"
                             android:text="Moderated"></TextView>

@@ -40,7 +40,13 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/id_facebook"/>
+
+        <provider android:authorities="com.facebook.app.FacebookContentProvider577804302964237"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"/>
+
         <activity
             android:name=".activity.MapsActivity"
             android:label="@string/title_activity_maps" />
