@@ -16,6 +16,7 @@ import com.haiph.oysi.R;
 import com.haiph.oysi.fragment.FragmentCountryInTheWorld;
 import com.haiph.oysi.fragment.FragmentRanking;
 import com.haiph.oysi.fragment.FragmentMyCountry;
+import com.pushbots.push.Pushbots;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -31,6 +32,7 @@ public class Oysi extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oysi);
+        Pushbots.sharedInstance().registerForRemoteNotifications();
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new FragmentCountryInTheWorld());
         fragmentList.add(new FragmentMyCountry());

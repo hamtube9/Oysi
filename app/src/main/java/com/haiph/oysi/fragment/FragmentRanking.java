@@ -17,6 +17,7 @@ import com.haiph.oysi.adapter.AdapterRanking;
 import com.haiph.oysi.model.ranking.Datum;
 import com.haiph.oysi.model.ranking.World;
 import com.haiph.oysi.response.RankingResponse;
+import com.haiph.oysi.service.RequestRetrofit;
 import com.haiph.oysi.service.RetrofitService;
 
 import java.util.ArrayList;
@@ -40,27 +41,25 @@ public class FragmentRanking extends Fragment {
         rcViewRank.setAdapter(adapter);
         rcViewRank.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        getRanking();
+       getQualityRanking();
         return view;
     }
 
-    private void getRanking() {
-        RetrofitService.getInstance().getRanking(key).enqueue(new Callback<RankingResponse>() {
+    private void getQualityRanking() {
+        RequestRetrofit.getRequest().getRanking().enqueue(new Callback<RankingResponse>() {
             @Override
             public void onResponse(Call<RankingResponse> call, Response<RankingResponse> response) {
                 if (response.isSuccessful()){
-                    String responseData = response.body().data.toString();
-                    Log.e("response",responseData+"");
-                        list.addAll(response.body().data);
-                        adapter.notifyDataSetChanged();
+                    list.addAll(response.body().data);
+                    adapter.notifyDataSetChanged();
                 }
             }
 
             @Override
             public void onFailure(Call<RankingResponse> call, Throwable t) {
-                Log.e("errorT",t.getMessage());
 
             }
         });
     }
+
 }
